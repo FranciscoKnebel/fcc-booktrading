@@ -1,7 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 
-module.exports = function (passport) {
+module.exports = function (passport, mongoose, nev) {
 	passport.serializeUser(function (user, done) {
 		done(null, user.id);
 	});
@@ -28,7 +28,7 @@ module.exports = function (passport) {
 				return done(null, false, req.flash('loginMessage', 'No user found.'));
 			}
 
-			if (!user.validPassword(password))
+			if (!user.validPassword(password)) 
 				return done(null, false, req.flash('loginMessage', "Oops! Wrong password"));
 
 			return done(null, user);
@@ -47,17 +47,18 @@ module.exports = function (passport) {
 			User.findOne({
 				'email': email
 			}, function (err, existingUser) { // if there are any errors, return the error
-				if (err)
+				if (err) {
 					return done(err);
+				}
 
 				// check to see if there's already a user with that email
-				if (existingUser)
+				if (existingUser) {
 					return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+				}
 
 				//  If we're logged in, return local account.
 				if (req.user) {
-					var user = req.user;
-					return done(null, user);
+					return done(null, req.user);
 				} else { //  We're not logged in, so we're creating a brand new user.
 					// create the user
 					var newUser = new User();
@@ -65,14 +66,44 @@ module.exports = function (passport) {
 					newUser.email = email;
 					newUser.password = newUser.generateHash(password);
 
-					newUser.save(function (err) {
-						if (err)
-							throw err;
+					nev.createTempUser(newUser, function (err, existingPersistentUser, newTempUser) {
+						if (err) {
+							return done(null, false, req.flash('signupMessage', err.message));
+						}
 
-						return done(null, newUser);
+						if (existingPersistentUser) {
+							return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+						}
+
+						if (newTempUser) {
+							var URL = newTempUser[nev.options.URLFieldName];
+
+							nev.sendVerificationEmail(email, URL, function (err, info) {
+								if (err) {
+									//handle error
+									return done(null, false, req.flash('signupMessage', err.message));
+								}
+
+								//flash message of success
+								return done(null, newUser, req.flash('verifyMessage', URL));
+							});
+						} else {
+							//flash message of failure
+							nev.resendVerificationEmail(email, function (err, userFound) {
+								if (err) {
+									return done(null, false, req.flash('signupMessage', err.message));
+								}
+
+								if (userFound) {
+									return done(null, false, req.flash('signupMessage', "You have already registered! We are sending a new confirmation to your e-mail."));
+								} else {
+									return done(null, false, req.flash('signupMessage', "Failure to signup."));
+								}
+							}, function () {});
+						}
 					});
 				}
 			});
 		})
 	}));
-}
+};

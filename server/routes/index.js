@@ -1,9 +1,10 @@
 'use strict';
 var isLoggedIn = require('../modules/isLoggedIn');
+var User = require('../models/user');
 
-module.exports = function (app, dirname, passport) {
+module.exports = function (app, dirname, passport, env, nev) {
 	require('./static')(app, dirname);
-	require('./auth/local')(app, passport);
+	require('./auth/local')(app, passport, nev);
 	//	require('./api')(app, dirname);
 
 	app.get('/', function (req, res) {

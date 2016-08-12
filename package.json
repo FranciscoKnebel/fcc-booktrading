@@ -28,6 +28,7 @@
     "connect-flash": "^0.1.1",
     "dotenv": "^2.0.0",
     "ejs": "^2.5.1",
+    "email-verification": "git://github.com/whitef0x0/node-email-verification.git#bb21779",
     "express": "^4.14.0",
     "express-session": "^1.14.0",
     "jquery": "^3.1.0",
@@ -36,6 +37,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "request": "^2.74.0",
-    "semantic-ui": "^2.2.2"
+    "semantic-ui": "^2.2.2",
+    "serve-favicon": "^2.3.0"
   }
 }

@@ -3,3 +3,4 @@ npm-debug.log
 semantic
 .directory
 .hidethis
+.env
