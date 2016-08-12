@@ -1,0 +1,46 @@
+<% if(typeof user !== "undefined") { %>
+	<div class="ui top fixed large inverted menu">
+		<div class="right menu">
+			<div class="item link">
+				<a href="/profile">
+					<p><%= user.email %></p>
+				</a>
+			</div>
+			<div class="item">
+				<a class="ui animated red button" href="/logout">
+					<div class="visible content">Logout</div>
+					<div class="hidden content">
+						<i class="sign out icon"></i>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+
+<% } else { %>
+	<div class="ui top fixed large inverted menu">
+		<div class="right menu">
+			<a class="item" href="/">
+				Home
+			</a>
+			<div class="item">
+				<div class="ui animated green button" tabindex="0" id="loginButton" data-toggle="modal" data-target="#authModal" data-action="login">
+					<div class="visible content">Login</div>
+					<div class="hidden content">
+						<i class="sign in icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<div class="ui animated blue button" tabindex="0" id="signupButton" data-toggle="modal" data-target="#authModal" data-action="signup">
+					<div class="visible content">Signup</div>
+					<div class="hidden content">
+						<i class="user plus icon"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% include authModal %>
+<% } %>

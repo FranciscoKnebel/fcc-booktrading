@@ -1,0 +1,41 @@
+{
+  "name": "trocadelivros",
+  "version": "1.0.0",
+  "description": "\"Troca de Livros\" is an online book trading platform. You can register your books, search for books available in your area, contact the book owner and set up a meeting to trade!",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyozeus/TrocaDeLivros.git"
+  },
+  "keywords": [
+    "books",
+    "freecodecamp"
+  ],
+  "author": "KyoZeus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kyozeus/TrocaDeLivros/issues"
+  },
+  "homepage": "https://github.com/kyozeus/TrocaDeLivros#readme",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^2.0.0",
+    "ejs": "^2.5.1",
+    "express": "^4.14.0",
+    "express-session": "^1.14.0",
+    "jquery": "^3.1.0",
+    "mongoose": "^4.5.8",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "request": "^2.74.0",
+    "semantic-ui": "^2.2.2"
+  }
+}

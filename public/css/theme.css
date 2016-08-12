@@ -1,0 +1,29 @@
+body {
+  background-color: #DADADA;
+}
+
+.text-white {
+  color: white;
+}
+
+#top {
+  padding-top: 100px;
+}
+
+footer {
+  padding: 50px 0;
+}
+
+a {
+  transition: 1s;
+  color: #a03232;
+}
+
+a:focus, a:hover {
+  transition: 1s;
+	color: #014c8c;
+}
+
+.nojs {
+  display: none !important;
+}

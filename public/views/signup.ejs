@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="utf-8">
+		<title>Stock Market - Signup</title>
+
+		<% include ../snippets/CSS %>
+		<% include ../snippets/analytics %>
+		<link rel="stylesheet" href="/css/auth.css">
+	</head>
+	<body>
+		<div class="ui middle aligned center aligned grid">
+			<div class="column">
+				<h1 class="ui header">
+					<i class="user plus icon"></i>
+					Signup
+				</h1>
+
+				<!-- Signup FORM -->
+				<form class="ui large form error" action="/signup" method="post">
+					<div class="ui stacked segment">
+						<div class="required field">
+							<label>Email</label>
+							<div class="ui left icon input">
+								<i class="user icon"></i>
+								<input required type="email" placeholder="E-mail address" name="email">
+							</div>
+						</div>
+						<div class="required field">
+							<label>Password</label>
+							<div class="ui left icon input">
+								<i class="lock icon"></i>
+								<input required type="password" placeholder="Password" name="password">
+							</div>
+						</div>
+						<button type="submit" class="ui teal submit button">Signup</button>
+					</div>
+					<% if (message.length > 0) { %>
+						<!-- show any messages that come back with authentication -->
+						<div class="ui error message">
+							<%= message %>
+						</div>
+					<% } %>
+				</form>
+
+				<div class="ui message">
+					<div class="ui buttons">
+						<a href="/login" class="ui vertical animated blue button">
+							<div class="visible content">
+								Log In</div>
+							<div class="hidden content">
+								<i class="left arrow icon"></i>
+							</div>
+						</a>
+						<div class="or"></div>
+						<a href="/" class="ui vertical animated green button">
+							<div class="visible content">
+								Home</div>
+							<div class="hidden content">
+								<i class="right arrow icon"></i>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<% include ../snippets/JS %>
+	</body>
+</html>
