@@ -1,17 +1,63 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
 		<title>Troca de Livros - Verify</title>
-	</head>
-	<body>
-		<% if (verifying)  { %>
-			<p>VERIFYING</p>
-			<p><%= message %></p>
-		<% } else { %>
-			<p>NOT VERIFYING</p>
-			<p><%= message %></p>
-		<% } %>
 
+		<% include ../snippets/head %>
+		<link rel="stylesheet" href="/css/auth.css">
+	</head>
+	<body id="top">
+		<div class="ui middle aligned center aligned grid" id="top">
+			<div class="column">
+				<h1 class="ui header">
+					<i class="checkmark box icon"></i>
+					Verify
+				</h1>
+
+				<div class="ui stacked segment">
+					<% if (verifying)  { %>
+						<h3>Success!</h3>
+						<p><%= message %></p>
+						<p>Click the link below to open the login page.</p>
+						<a href="/login" class="ui vertical animated teal button">
+							<div class="visible content">
+								Login</div>
+							<div class="hidden content">
+								<i class="sign in icon"></i>
+							</div>
+						</a>
+					<% } else { %>
+						<% if (message.length > 0) { %>
+							<h3>Success!</h3>
+							<p><%= message %></p>
+							<p>Please check your email to find the verification link.</p>
+						<% } else { %>
+							<p>Nothing to see here.</p>
+						<% } %>
+					<% } %>
+				</div>
+
+				<div class="ui segment">
+					<div class="ui buttons">
+						<a href="/signup" class="ui vertical animated blue button">
+							<div class="visible content">
+								Signup</div>
+							<div class="hidden content">
+								<i class="left arrow icon"></i>
+							</div>
+						</a>
+						<div class="or"></div>
+						<a href="/" class="ui vertical animated green button">
+							<div class="visible content">
+								Home</div>
+							<div class="hidden content">
+								<i class="right arrow icon"></i>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<% include ../snippets/footer %>
 	</body>
 </html>

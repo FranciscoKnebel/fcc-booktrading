@@ -36,21 +36,19 @@ module.exports = function (app, passport, nev) {
 
 	app.get('/verify/:id', function (req, res) {
 		nev.confirmTempUser(req.params.id, function (err, user) {
-			if (err) { // handle error...
+			if (err) {
 				console.error(err);
-				res.redirect('/signup', {message: err.message});
+				res.render('signup.ejs', {message: err.message});
 			}
 
-			if (user) { // optional
-				//nev.sendConfirmationEmail(user['email'], function (err, info) {
+			if (user) {
 				res.render('verify.ejs', {
-					message: "USER VERIFIED!" + req.params.id,
+					message: "User " + user.email + " is now verified.",
 					verifying: true
 				});
-				//});
 			} else {
-				res.redirect('/signup');
-			} // redirect to sign-up
+				res.render('signup.ejs', {message: 'User verify invalid.'});
+			}
 		});
 
 	});
