@@ -23,7 +23,10 @@ module.exports = function (app, dirname, passport, env, nev) {
 	});
 
 	app.get('/profile', isLoggedIn, function (req, res) {
-		res.render('profile.authenticated.ejs', {user: req.user});
+		res.render('profile.authenticated.ejs', {
+			user: req.user,
+			requested: req.user.getRequestedBooks()
+		});
 	});
 
 	app.get('/profile/:id', function (req, res) {

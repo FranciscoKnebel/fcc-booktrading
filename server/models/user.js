@@ -10,7 +10,17 @@ var userSchema = mongoose.Schema({
 	books: [
 		{
 			title: String,
-			cover: String
+			cover: String,
+			requested: [
+				{
+					by: {
+						type: mongoose.Schema.Types.ObjectId,
+						ref: 'User'
+					},
+					when: Date
+				}
+			],
+			pictures: [String]
 		}
 	],
 	link: String,
@@ -64,6 +74,45 @@ userSchema.methods.changeInformation = function (property, value) {
 	this.markModified(property);
 
 	return this;
+}
+
+userSchema.methods.getRequestedBooks = function () {
+	var requested = [];
+
+	for (var i = 0; i < this.books.length; i++) {
+		if (this.books[i].requested) { //book is requested by at least one person
+			requested.push(this.books[i]);
+		}
+	}
+
+	return requested;
+}
+
+userSchema.methods.addRequestToBook = function (book, user) {
+	for (var i = 0; i < this.books.length; i++) {
+		if (this.books[i].id === book.id) {
+			this.books[i].requested.push({by: user, when: new Date()});
+			this.markModified('books');
+			return this.books[i];
+		}
+	}
+	return false;
+}
+
+userSchema.methods.removeRequestToBook = function (book, user) {
+	for (var i = 0; i < this.books.length; i++) {
+		if (this.books[i].id === book.id) {
+			for (var j = 0; j < array.length; j++) {
+				if (this.books[i].requested[j].by.id === user.id) {
+					this.books[i].requested.splice(j, 1);
+					this.markModified('books');
+					return this.books[i];
+				}
+			}
+			return false;
+		}
+	}
+	return false;
 }
 
 // create the model for users and expose it to our app

@@ -9,26 +9,154 @@
 		<% include ../snippets/navbar %>
 
 		<div class="ui container" id="top">
-			<img src="/favicon.ico" /class="ui centered small image">
+			<img src="/favicon.ico" class="ui centered small image"/>
 		</div>
 
-		<div class="ui raised segments text container styled fluid accordion">
-			<div class="active title">
-				<i class="dropdown icon"></i>
-				User Settings
-			</div>
-			<div class="active content">
-				<p><%= user.email %></p>
-			</div>
-			<div class="title">
-				<i class="dropdown icon"></i>
-				User owned books
-			</div>
-			<div class="content">
-				<p><%= user.books %></p>
+		<div class="ui container">
+			<div class="ui raised segments styled fluid accordion">
+
+				<div class="active title">
+					<i class="dropdown icon"></i>
+					User Settings
+				</div>
+				<div class="active content">
+					<form class="ui equal width form">
+						<div class="ui stackable grid segment">
+							<div class="four wide column">
+								<img src="<%= user.picture %>" class="ui centered small circular image"/>
+							</div>
+							<div class="twelve wide column">
+								<div class="fields">
+									<div class="field">
+										<label>Picture</label>
+										<div class="ui action input">
+											<% if(user.picture == undefined || user.picture === "/img/profile.jpg") { %>
+												<input type="text" placeholder="Your picture url" name="picture">
+											<% } else { %>
+												<input type="text" placeholder="Your picture url" name="picture" value="<%= user.picture %>">
+											<% } %>
+											<div class="ui secondary icon button">
+												<i class="checkmark icon"></i>
+											</div>
+										</div>
+									</div>
+									<div class="field">
+										<label>E-mail</label>
+										<div class="ui action input">
+											<input required type="email" placeholder="User e-mail" name="email" value="<%= user.email %>">
+											<div class="ui secondary icon button">
+												<i class="checkmark icon"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="fields">
+									<div class="field">
+										<label>City</label>
+										<div class="ui action input">
+											<input type="text" placeholder="User city" name="city" value="<% user.city %>">
+											<div class="ui secondary icon button">
+												<i class="checkmark icon"></i>
+											</div>
+										</div>
+									</div>
+									<div class="field">
+										<label>Phone</label>
+										<div class="ui action input">
+											<input type="tel" placeholder="User phone number" name="phone" value="<% user.phone %>">
+											<div class="ui secondary icon button">
+												<i class="checkmark icon"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="fields">
+									<div class="field"></div>
+									<div class="field">
+										<button class="ui fluid orange button disabled" type="button" name="deletebooks">Delete all books</button>
+									</div>
+									<div class="field">
+										<button class="ui fluid negative button disabled" type="button" name="deleteaccount">Delete account</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="title">
+					<i class="dropdown icon"></i>
+					Pending requests
+				</div>
+				<div class="content">
+					<div class="ui relaxed divided items">
+						<% if(!requested || 0 === requested.length || requested === "") { %>
+							<div class="item">
+								<div class="content">
+									<a class="header">
+										<span>Woops!</span>
+									</a>
+									<div class="meta">
+										<span>No user has requested a book from you... yet!</span>
+									</div>
+									<div class="description">
+										<p>
+											Have you tried adding more? Click the add button!
+										</p>
+									</div>
+									<div class="extra">
+										<button class="ui left floated positive button">
+											<i class="plus icon"></i>
+											Add Book
+										</button>
+									</div>
+								</div>
+							</div>
+						<% } else { %>
+							<div class="item">
+								<p><%= requested %></p>
+							</div>
+							<!--Show all requests -->
+						<% } %>
+					</div>
+				</div>
+
+				<div class="title">
+					<i class="dropdown icon"></i>
+					User owned books
+				</div>
+				<div class="content">
+					<div class="ui items">
+						<% if(!user.books || 0 === user.books.length || user.books === "") { %>
+							<div class="item">
+								<div class="content">
+									<a class="header">
+										<span>Woops!</span>
+									</a>
+									<div class="meta">
+										<span>You have not added any books yet..</span>
+									</div>
+									<div class="description">
+										<p>
+											To start adding books to your collection, click the add button!
+										</p>
+									</div>
+									<div class="extra">
+										<button class="ui left floated positive button">
+											<i class="plus icon"></i>
+											Add Book
+										</button>
+									</div>
+								</div>
+							</div>
+						<% } else { %>
+							<p><%= user.books %></p>
+							<!-- Show all books -->
+						<% } %>
+					</div>
+				</div>
 			</div>
 		</div>
-
 		<% include ../snippets/footer %>
 		<% include ../snippets/JS %>
 		<script>
