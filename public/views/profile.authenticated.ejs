@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Troca de Livros</title>
+
+		<% include ../snippets/head %>
+	</head>
+	<body>
+		<% include ../snippets/navbar %>
+
+		<div class="ui container" id="top">
+			<img src="/favicon.ico" /class="ui centered small image">
+		</div>
+
+		<div class="ui raised segments text container styled fluid accordion">
+			<div class="active title">
+				<i class="dropdown icon"></i>
+				User Settings
+			</div>
+			<div class="active content">
+				<p><%= user.email %></p>
+			</div>
+			<div class="title">
+				<i class="dropdown icon"></i>
+				User owned books
+			</div>
+			<div class="content">
+				<p><%= user.books %></p>
+			</div>
+		</div>
+
+		<% include ../snippets/footer %>
+		<% include ../snippets/JS %>
+		<script>
+			$('.ui.accordion').accordion({exclusive: false});
+		</script>
+	</body>
+</html>

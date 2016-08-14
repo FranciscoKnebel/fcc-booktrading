@@ -9,9 +9,14 @@ var userSchema = mongoose.Schema({
 	password: String,
 	books: [
 		{
-			title: String
+			title: String,
+			cover: String
 		}
-	]
+	],
+	link: String,
+	picture: String,
+	city: String,
+	phone: String
 }, {
 	timestamps: {
 		createdAt: 'createdAt',
@@ -50,6 +55,15 @@ userSchema.methods.removeBook = function (book) {
 		this.books.splice(index, 1);
 		return this.books;
 	}
+}
+
+userSchema.methods.changeInformation = function (property, value) {
+	console.log("Swapping property '" + property + "' for '" + value + "'.");
+	this[property] = value;
+
+	this.markModified(property);
+
+	return this;
 }
 
 // create the model for users and expose it to our app

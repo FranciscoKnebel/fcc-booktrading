@@ -21,7 +21,7 @@
 				</h1>
 
 				<!-- Signup FORM -->
-				<form class="ui large form error" action="/signup" method="post">
+				<form class="ui large form error" action="/signup" method="post" id="authForm">
 					<div class="ui stacked segment">
 						<div class="required field">
 							<label>Email</label>
@@ -38,6 +38,7 @@
 							</div>
 						</div>
 						<button type="submit" class="ui teal submit button">Signup</button>
+						<div class="ui error message"></div>
 					</div>
 					<% if (message.length > 0) { %>
 						<!-- show any messages that come back with authentication -->

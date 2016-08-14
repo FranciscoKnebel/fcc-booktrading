@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Troca de Livros</title>
+
+		<% include ../snippets/head %>
+	</head>
+	<body>
+		<% include ../snippets/navbar %>
+
+		<div class="ui container" id="top">
+			<img src="/favicon.ico" /class="ui centered small image">
+		</div>
+
+		<div class="ui center aligned raised segments text container">
+			<div class="ui segment">
+				<img src="<%= user.picture %>" class="ui centered circular image"/>
+				Contact Info
+				<p><%= user.email %></p>
+			</div>
+			<div class="ui segment">
+				<% if(user.books.length > 0) { %>
+					<p><%= user.books %></p>
+				<% } else { %>
+					<p>User has no books associated with his account.</p>
+				<% } %>
+			</div>
+		</div>
+
+		<% include ../snippets/footer %>
+		<% include ../snippets/JS %>
+	</body>
+</html>

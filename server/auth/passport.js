@@ -1,5 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
+var shortid = require('shortid');
 
 module.exports = function (passport, mongoose, nev) {
 	passport.serializeUser(function (user, done) {
@@ -65,6 +66,8 @@ module.exports = function (passport, mongoose, nev) {
 
 					newUser.email = email;
 					newUser.password = newUser.generateHash(password);
+					newUser.link = shortid.generate();
+					newUser.picture = "/img/profile.jpg";
 
 					nev.createTempUser(newUser, function (err, existingPersistentUser, newTempUser) {
 						if (err) {
