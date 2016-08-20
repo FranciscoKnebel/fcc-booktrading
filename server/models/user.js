@@ -2,6 +2,8 @@ const notFound = -1;
 
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+const isImageUrl = require('is-image-url');
+const capitalize = require('capitalize');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
@@ -68,11 +70,23 @@ userSchema.methods.removeBook = function (book) {
 }
 
 userSchema.methods.changeInformation = function (property, value) {
-	console.log("Swapping property '" + property + "' for '" + value + "'.");
-	this[property] = value;
+	if (this[property] !== value) {
+		if (property === "picture") {
+			if (isImageUrl(value)) {
+				this[property] = value;
+			} else {
+				this[property] = "/img/profile.jpg";
+			}
+		} else if (property === "city") {
+			this[property] = capitalize.words(value);
+		} else {
+			this[property] = value;
+		}
+	} else {
+		return false;
+	}
 
 	this.markModified(property);
-
 	return this;
 }
 

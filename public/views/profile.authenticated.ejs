@@ -20,7 +20,7 @@
 					User Settings
 				</div>
 				<div class="active content">
-					<form class="ui equal width form">
+					<form class="ui equal width form" action="/profile/update" method="post">
 						<div class="ui stackable grid segment">
 							<div class="four wide column">
 								<img src="<%= user.picture %>" class="ui centered small circular image"/>
@@ -29,54 +29,40 @@
 								<div class="fields">
 									<div class="field">
 										<label>Picture</label>
-										<div class="ui action input">
-											<% if(user.picture == undefined || user.picture === "/img/profile.jpg") { %>
-												<input type="text" placeholder="Your picture url" name="picture">
-											<% } else { %>
-												<input type="text" placeholder="Your picture url" name="picture" value="<%= user.picture %>">
-											<% } %>
-											<div class="ui secondary icon button">
-												<i class="checkmark icon"></i>
-											</div>
-										</div>
+										<% if(user.picture == undefined || user.picture === "/img/profile.jpg") { %>
+											<input type="text" placeholder="Your picture url" name="picture">
+										<% } else { %>
+											<input type="text" placeholder="Your picture url" name="picture" value="<%= user.picture %>">
+										<% } %>
 									</div>
 									<div class="field">
 										<label>E-mail</label>
-										<div class="ui action input">
-											<input required type="email" placeholder="User e-mail" name="email" value="<%= user.email %>">
-											<div class="ui secondary icon button">
-												<i class="checkmark icon"></i>
-											</div>
-										</div>
+										<input required type="email" placeholder="User e-mail" name="email" value="<%= user.email %>">
 									</div>
 								</div>
 								<div class="fields">
 									<div class="field">
 										<label>City</label>
-										<div class="ui action input">
-											<input type="text" placeholder="User city" name="city" value="<% user.city %>">
-											<div class="ui secondary icon button">
-												<i class="checkmark icon"></i>
-											</div>
-										</div>
+										<input type="text" placeholder="User city" name="city" value="<%= user.city %>">
 									</div>
 									<div class="field">
 										<label>Phone</label>
-										<div class="ui action input">
-											<input type="tel" placeholder="User phone number" name="phone" value="<% user.phone %>">
-											<div class="ui secondary icon button">
-												<i class="checkmark icon"></i>
-											</div>
-										</div>
+										<input type="tel" placeholder="User phone number" name="phone" value="<%= user.phone %>">
 									</div>
 								</div>
 								<div class="fields">
-									<div class="field"></div>
 									<div class="field">
-										<button class="ui fluid orange button disabled" type="button" name="deletebooks">Delete all books</button>
+										<button class="ui fluid green button" type="submit">Update Information</button>
 									</div>
 									<div class="field">
-										<button class="ui fluid negative button disabled" type="button" name="deleteaccount">Delete account</button>
+										<div class="fields">
+											<div class="field">
+												<button class="ui fluid orange button disabled" type="button" name="deletebooks">Delete all books</button>
+											</div>
+											<div class="field">
+												<button class="ui fluid negative button disabled" type="button" name="deleteaccount">Delete account</button>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
