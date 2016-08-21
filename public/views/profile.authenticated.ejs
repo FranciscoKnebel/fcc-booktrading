@@ -37,7 +37,7 @@
 									</div>
 									<div class="field">
 										<label>E-mail</label>
-										<input required type="email" placeholder="User e-mail" name="email" value="<%= user.email %>">
+										<input required type="email" placeholder="User e-mail" name="email" value="<%= user.email %>" readonly="">
 									</div>
 								</div>
 								<div class="fields">
@@ -52,15 +52,15 @@
 								</div>
 								<div class="fields">
 									<div class="field">
-										<button class="ui fluid green button" type="submit">Update Information</button>
+										<button class="ui fluid green button" type="submit" value="update" name="update">Update Information</button>
 									</div>
 									<div class="field">
 										<div class="fields">
 											<div class="field">
-												<button class="ui fluid orange button disabled" type="button" name="deletebooks">Delete all books</button>
+												<button class="ui fluid orange button" type="submit" value="deletebooks" name="update" onclick="return confirm('Are you sure you want to delete all books? There is no going back.')">Delete all books</button>
 											</div>
 											<div class="field">
-												<button class="ui fluid negative button disabled" type="button" name="deleteaccount">Delete account</button>
+												<button class="ui fluid negative button" type="submit" value="deleteaccount" name="update" onclick="return confirm('Are you sure you want to delete your account? There is no going back.')">Delete account</button>
 											</div>
 										</div>
 									</div>

@@ -2,32 +2,50 @@ const isLoggedIn = require('../../modules/isLoggedIn');
 
 module.exports = function (app, dirname) {
 
-	app.post('/new/book', function (req, res) {
+	app.post('/profile/new/book', isLoggedIn, function (req, res) {
 		console.log("Great choice, mate");
 	});
 
 	app.post('/profile/update/', isLoggedIn, function (req, res) {
 		var user = req.user;
+		const action = req.body.update;
+		if (action === "update") {
+			user.changeInformation('picture', req.body.picture);
+			//user.changeInformation('email', req.body.email);
+			user.changeInformation('city', req.body.city);
+			user.changeInformation('phone', req.body.phone);
+			user.save(function (err) {
+				if (err)
+					console.error(err);
 
-		user.changeInformation('picture', req.body.picture);
-		user.changeInformation('email', req.body.email);
-		user.changeInformation('city', req.body.city); //format city name to "New York City" style
-		user.changeInformation('phone', req.body.phone);
-		user.save(function (err) {
-			if (err)
-				console.error(err);
+				req.user = user;
+				res.redirect('/profile');
+			});
+		} else if (action === "deletebooks") {
+			user.changeInformation('books', []);
+			user.save(function (err) {
+				if (err)
+					console.error(err);
 
-			req.user = user;
+				req.user = user;
+				res.redirect('/profile');
+			});
+		} else if (action === "deleteaccount") {
+			console.log("Deleting account " + user.id);
+			user.remove(function (err) {
+				if (err)
+					console.error(err);
+				else {
+					req.logout();
+					res.redirect('/');
+				}
+				res.redirect('/profile');
+			});
+		} else {
+			console.error("Invalid form action on profile update: " + action);
 			res.redirect('/profile');
-		});
-	});
+		}
 
-	app.delete('/profile/delete/books', isLoggedIn, function (req, res) {
-		console.log("But whyyyyy 1");
-	});
-
-	app.delete('/profile/delete/account', isLoggedIn, function (req, res) {
-		console.log("But whyyyyy 2");
 	});
 
 	app.post('/profile/delete/books', isLoggedIn, function (req, res) {
