@@ -17,24 +17,25 @@
 	</div>
 
 <% } else { %>
-	<div class="ui top fixed large inverted menu">
+	<div class="ui borderless top fixed large inverted menu">
 		<a href="/" class="header item">
 			<img src="/favicon.ico" class="ui avatar image"/>
 		</a>
 		<div class="right menu">
 			<div class="item">
-				<div class="ui animated green button" tabindex="0" id="loginButton" data-toggle="modal" data-target="#authModal" data-action="login">
-					<div class="visible content">Login</div>
-					<div class="hidden content">
-						<i class="sign in icon"></i>
+				<div class="ui large buttons">
+					<div class="ui animated green button" tabindex="0" id="loginButton" data-toggle="modal" data-target="#authModal" data-action="login">
+						<div class="visible content">Login</div>
+						<div class="hidden content">
+							<i class="sign in icon"></i>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="ui animated blue button" tabindex="0" id="signupButton" data-toggle="modal" data-target="#authModal" data-action="signup">
-					<div class="visible content">Signup</div>
-					<div class="hidden content">
-						<i class="user plus icon"></i>
+					<div class="menu or" data-text="or"></div>
+					<div class="ui animated primary button" tabindex="0" id="signupButton" data-toggle="modal" data-target="#authModal" data-action="signup">
+						<div class="visible content">Signup</div>
+						<div class="hidden content">
+							<i class="user plus icon"></i>
+						</div>
 					</div>
 				</div>
 			</div>

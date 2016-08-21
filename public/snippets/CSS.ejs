@@ -1,2 +1,12 @@
 <link rel="stylesheet" href="/css/semantic.css">
 <link rel="stylesheet" href="/css/theme.css">
+
+<% if(typeof user === "undefined") { %>
+	<style>
+		.menu.or:before {
+			background-color: black !important;
+			color: rgb(255, 255, 255) !important;
+		}
+
+	</style>
+<% } %>

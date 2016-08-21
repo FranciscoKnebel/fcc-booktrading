@@ -5,15 +5,9 @@
 
 		<% include ../snippets/head %>
 		<link rel="stylesheet" href="/css/auth.css">
-		<style>
-			body > .grid {
-				height: 100%;
-			}
-
-		</style>
 	</head>
 	<body>
-		<div class="ui middle aligned center aligned grid">
+		<div class="ui middle aligned center aligned grid" id="top">
 			<div class="column">
 				<h1 class="ui header">
 					<i class="user plus icon"></i>
@@ -37,14 +31,18 @@
 								<input required type="password" placeholder="Password" name="password">
 							</div>
 						</div>
-						<button type="submit" class="ui teal submit button">Signup</button>
-						<div class="ui error message"></div>
+						<button type="submit" class="ui teal submit button">Log In</button>
 					</div>
 					<% if (message.length > 0) { %>
 						<!-- show any messages that come back with authentication -->
 						<div class="ui error message">
-							<%= message %>
+							<div class="header">Oops!</div>
+							<div class="content">
+								<%= message %>
+							</div>
 						</div>
+					<% } else { %>
+						<div class="ui error message"></div>
 					<% } %>
 				</form>
 

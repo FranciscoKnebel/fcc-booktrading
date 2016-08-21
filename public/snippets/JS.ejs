@@ -3,35 +3,4 @@
 
 <% if(typeof user === "undefined") { %>
 	<script src="/js/loginAndSignup.js"></script>
-	<script>
-		$('#authForm').form({
-			on: 'blur',
-			fields: {
-				email: {
-					identifier: 'empty',
-					rules: [
-						{
-							type: 'empty',
-							prompt: 'E-mail field is empty.'
-						}, {
-							type: 'email',
-							prompt: 'Please enter a valid e-mail.'
-						}
-					]
-				},
-				password: {
-					identifier: 'password',
-					rules: [
-						{
-							type: 'minLength[6]',
-							prompt: "Minimum password length is 6."
-						}, {
-							type: 'empty',
-							prompt: 'Password field is empty.'
-						}
-					]
-				}
-			}
-		});
-	</script>
 <% } %>

@@ -13,8 +13,19 @@
 		</div>
 
 		<div class="ui container">
-			<div class="ui raised segments styled fluid accordion">
+			<% if(message.length > 0) { %>
+				<div class="ui text container">
+					<div class="ui message">
+						<i class="close icon"></i>
+						<div class="header">
+							Done!
+						</div>
+						<p><%= message %></p>
+					</div>
+				</div>
+			<% } %>
 
+			<div class="ui raised segments styled fluid accordion">
 				<div class="active title">
 					<i class="dropdown icon"></i>
 					User Settings
@@ -145,8 +156,6 @@
 		</div>
 		<% include ../snippets/footer %>
 		<% include ../snippets/JS %>
-		<script>
-			$('.ui.accordion').accordion({exclusive: false});
-		</script>
+		<script src="/js/profile.authenticated.js"></script>
 	</body>
 </html>

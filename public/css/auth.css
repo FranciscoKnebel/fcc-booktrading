@@ -3,9 +3,5 @@ body {
 }
 
 .column {
-  max-width: 450px;
-}
-
-.header {
-  margin-top: -100px !important;
+  max-width: 512px;
 }

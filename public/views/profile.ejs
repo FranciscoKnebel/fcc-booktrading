@@ -8,15 +8,19 @@
 	<body>
 		<% include ../snippets/navbar %>
 
-		<div class="ui container" id="top">
-			<img src="/favicon.ico" /class="ui centered small image">
-		</div>
-
-		<div class="ui center aligned raised segments text container">
+		<div class="ui center aligned raised segments text container" id="top">
 			<div class="ui segment">
 				<img src="<%= user.picture %>" class="ui centered circular small image"/>
 				Contact Info
 				<p><%= user.email %></p>
+				<% console.log(user); %>
+				<p>
+					Last activity:
+					<strong><%= lastseen %></strong>
+					<br>
+					Member since
+					<strong><%= since %></strong>
+				</p>
 			</div>
 			<div class="ui segment">
 				<% if(user.books.length > 0) { %>
