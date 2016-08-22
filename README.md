@@ -1,6 +1,22 @@
 # TrocaDeLivros
 
 
+---
+
+###### .env file
+```
+PORT=80
+NODE_ENV=development or production
+MONGODB_URI=mongodb://localhost:27017/
+ROOT_URL=https://example.com
+
+PROGRAM_TITLE=Program Title
+SESSION_SECRET=YourSecret
+TRANSPORTER_EMAIL=example@gmail.com
+TRANSPORTER_PASS=password
+TRANSPORTER_NAME=Example - Do not Reply
+CONTACT_EMAIL=example2@gmail.com
+```
 
 ---
 ##### To build Semantic-UI:

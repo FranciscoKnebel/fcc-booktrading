@@ -21,17 +21,25 @@
 					</div>
 				</div>
 			</div>
-			<div class="ui segment">
-				<a href="/">
-					<img src="/img/fog-m.jpg" class="ui centered image"/>
-					<!--
-					Image source: https://pixabay.com/photo-1208283/
-					-->
-				</a>
+			<div class="ui centered image">
+				<div class="ui dimmer">
+					<div class="content">
+						<div class="center">
+							<a href="/" class="ui primary huge button">Home</a>
+						</div>
+					</div>
+				</div>
+				<img src="/img/fog-m.jpg"/>
+				<!--
+						Image source: https://pixabay.com/photo-1208283/
+						-->
 			</div>
 		</div>
 
 		<% include ../snippets/footer %>
 		<% include ../snippets/JS %>
+		<script>
+			$('.image').dimmer({on: 'hover'});
+		</script>
 	</body>
 </html>

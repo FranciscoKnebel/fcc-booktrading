@@ -9,10 +9,6 @@
 		<% include ../snippets/navbar %>
 
 		<div class="ui container" id="top">
-			<img src="/favicon.ico" class="ui centered small image"/>
-		</div>
-
-		<div class="ui container">
 			<% if(message.length > 0) { %>
 				<div class="ui text container">
 					<div class="ui message">
@@ -26,6 +22,92 @@
 			<% } %>
 
 			<div class="ui raised segments styled fluid accordion">
+				<% var hasPendingRequests = !(!requested || 0 === requested.length || requested === "") %>
+				<div class="title">
+					<i class="dropdown icon"></i>
+					Pending requests
+					<% if(hasPendingRequests) { %>
+						<div class="horizontal ui red label">
+							<%= pending.length %>
+						</div>
+					<% } %>
+				</div>
+				<div class="content">
+					<div class="ui relaxed divided items">
+						<% if(!hasPendingRequests) { %>
+							<div class="item">
+								<div class="content">
+									<a class="header">
+										<span>Woops!</span>
+									</a>
+									<div class="meta">
+										<span>No user has requested a book from you... yet!</span>
+									</div>
+									<div class="description">
+										<p>
+											Have you tried adding more? Click the add button!
+										</p>
+									</div>
+									<div class="extra">
+										<button class="ui left floated positive button">
+											<i class="plus icon"></i>
+											Add Book
+										</button>
+									</div>
+								</div>
+							</div>
+						<% } else { %>
+							<!--Show all requests -->
+							<div class="item">
+								<p><%= requested %></p>
+							</div>
+						<% } %>
+					</div>
+				</div>
+
+				<% var hasOwnedBooks = !(!user.books || 0 === user.books.length || user.books === "") %>
+				<div class="title">
+					<i class="dropdown icon"></i>
+					User owned books
+
+					<% if(hasOwnedBooks) { %>
+						<div class="horizontal ui teal label">
+							<%= user.books.length %>
+						</div>
+					<% } %>
+				</div>
+				<div class="content">
+					<div class="ui items">
+						<% if(!hasOwnedBooks) { %>
+							<div class="item">
+								<div class="content">
+									<a class="header">
+										<span>Woops!</span>
+									</a>
+									<div class="meta">
+										<span>You have not added any books yet..</span>
+									</div>
+									<div class="description">
+										<p>
+											To start adding books to your collection, click the add button!
+										</p>
+									</div>
+									<div class="extra">
+										<button class="ui left floated positive button">
+											<i class="plus icon"></i>
+											Add Book
+										</button>
+									</div>
+								</div>
+							</div>
+						<% } else { %>
+							<!-- Show all books -->
+							<!-- Only show 6 books, rest go to user library -->
+							<p><%= user.books %></p>
+						<% } %>
+					</div>
+				</div>
+
 				<div class="active title">
 					<i class="dropdown icon"></i>
 					User Settings
@@ -33,16 +115,31 @@
 				<div class="active content">
 					<form class="ui equal width form" action="/profile/update" method="post">
 						<div class="ui stackable grid segment">
-							<div class="four wide column">
-								<img src="<%= user.picture %>" class="ui centered small circular image"/>
+							<div class="center aligned four wide column">
+								<div class="ui small circular bordered image" id="imgdim">
+									<div class="ui dimmer">
+										<div class="content">
+											<div class="center">
+												<a href="http://www.gravatar.com" target="_blank" class="ui blue button">
+													Gravatar
+												</a>
+											</div>
+										</div>
+									</div>
+									<img src="<%= user.picture %>"/>
+								</div>
 							</div>
 							<div class="twelve wide column">
 								<div class="fields">
 									<div class="field">
-										<label>Picture</label>
-										<% if(user.picture == undefined || user.picture === "/img/profile.jpg") { %>
+										<% if(user.picture == undefined || user.picture === "/img/profile.jpg" || user.picture.includes('//www.gravatar.com')) { %>
+											<label>Picture
+												<div class="horizontal ui teal label">Using Gravatar</div>
+											</label>
+
 											<input type="text" placeholder="Your picture url" name="picture">
 										<% } else { %>
+											<label>Picture</label>
 											<input type="text" placeholder="Your picture url" name="picture" value="<%= user.picture %>">
 										<% } %>
 									</div>
@@ -79,78 +176,6 @@
 							</div>
 						</div>
 					</form>
-				</div>
-
-				<div class="title">
-					<i class="dropdown icon"></i>
-					Pending requests
-				</div>
-				<div class="content">
-					<div class="ui relaxed divided items">
-						<% if(!requested || 0 === requested.length || requested === "") { %>
-							<div class="item">
-								<div class="content">
-									<a class="header">
-										<span>Woops!</span>
-									</a>
-									<div class="meta">
-										<span>No user has requested a book from you... yet!</span>
-									</div>
-									<div class="description">
-										<p>
-											Have you tried adding more? Click the add button!
-										</p>
-									</div>
-									<div class="extra">
-										<button class="ui left floated positive button">
-											<i class="plus icon"></i>
-											Add Book
-										</button>
-									</div>
-								</div>
-							</div>
-						<% } else { %>
-							<div class="item">
-								<p><%= requested %></p>
-							</div>
-							<!--Show all requests -->
-						<% } %>
-					</div>
-				</div>
-
-				<div class="title">
-					<i class="dropdown icon"></i>
-					User owned books
-				</div>
-				<div class="content">
-					<div class="ui items">
-						<% if(!user.books || 0 === user.books.length || user.books === "") { %>
-							<div class="item">
-								<div class="content">
-									<a class="header">
-										<span>Woops!</span>
-									</a>
-									<div class="meta">
-										<span>You have not added any books yet..</span>
-									</div>
-									<div class="description">
-										<p>
-											To start adding books to your collection, click the add button!
-										</p>
-									</div>
-									<div class="extra">
-										<button class="ui left floated positive button">
-											<i class="plus icon"></i>
-											Add Book
-										</button>
-									</div>
-								</div>
-							</div>
-						<% } else { %>
-							<p><%= user.books %></p>
-							<!-- Show all books -->
-						<% } %>
-					</div>
 				</div>
 			</div>
 		</div>

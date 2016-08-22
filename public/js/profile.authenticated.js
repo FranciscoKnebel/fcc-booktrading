@@ -3,3 +3,5 @@ $('.message .close').on('click', function () {
 });
 
 $('.ui.accordion').accordion({exclusive: false});
+
+$('#imgdim').dimmer({on: 'hover'});

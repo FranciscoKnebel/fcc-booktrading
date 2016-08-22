@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 const isImageUrl = require('is-image-url');
 const capitalize = require('capitalize');
+const gravatar = require('gravatar');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
@@ -75,7 +76,10 @@ userSchema.methods.changeInformation = function (property, value) {
 			if (isImageUrl(value)) {
 				this[property] = value;
 			} else {
-				this[property] = "/img/profile.jpg";
+				this[property] = gravatar.url(this.email, {
+					s: '200',
+					d: 'identicon'
+				});;
 			}
 		} else if (property === "city") {
 			this[property] = capitalize.words(value);
