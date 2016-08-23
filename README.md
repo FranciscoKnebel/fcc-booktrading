@@ -16,6 +16,8 @@ TRANSPORTER_EMAIL=example@gmail.com
 TRANSPORTER_PASS=password
 TRANSPORTER_NAME=Example - Do not Reply
 CONTACT_EMAIL=example2@gmail.com
+
+GOOGLEBOOKS_API_KEY=
 ```
 
 ---

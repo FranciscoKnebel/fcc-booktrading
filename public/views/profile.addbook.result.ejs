@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Troca de Livros</title>
+
+		<% include ../snippets/head %>
+	</head>
+	<body>
+		<% include ../snippets/navbar %>
+
+		<div class="ui container" id="top">
+			<div class="ui three column stackable special cards grid">
+				<% results.forEach(book => { %>
+					<div class="ui centered card" id="<%= book.bookID %>">
+						<div class="content">
+							<img src="<%= book.thumbnail %>" class="ui left floated image">
+
+							<div class="header">
+								<a href="<%= book.bookURL %>" target="_blank">
+									<%= book.title %>
+								</a>
+							</div>
+
+							<% if(book.pageCount) { %>
+								<div class="meta">
+									<span>P.
+										<%= book.pageCount %></span>
+								</div>
+							<% } %>
+
+							<% if(book.authors) { %>
+								<% book.authors.forEach(author => { %>
+									<div class="meta">
+										<a><%= author %></a>
+									</div>
+								<% }); %>
+							<% } %>
+
+							<% if(book.categories) { %>
+								<% book.categories.forEach(category => { %>
+									<div class="extra content">
+										<a><%= category %></a>
+									</div>
+								<% }); %>
+							<% } %>
+
+							<div class="description">
+								<% if(book.description) { %>
+									<% if(book.description.length > 250) { %>
+										<span>
+											<%= book.description.substring(0,250) %>&hellip;
+										</span>
+									<% } else { %>
+										<span>
+											<%= book.description %>
+										</span>
+									<% } %>
+								<% } %>
+							</div>
+						</div>
+						<div class="ui two bottom attached buttons">
+							<div class="ui green button">
+								Select
+							</div>
+							<div class="ui primary button">
+								Delete
+							</div>
+						</div>
+					</div>
+				<% }); %>
+			</div>
+		</div>
+
+		<% include ../snippets/footer %>
+		<% include ../snippets/JS %>
+		<script type="text/javascript">
+			$('.special.cards .image').dimmer({on: 'hover'});
+		</script>
+	</body>
+</html>
+
+<script type="text/javascript">
+	{
+		bookURL: 'http://books.google.com.br/books?id=_iVFgKTRYrQC&printsec=frontcover&dq=r&hl=&cd=1&source=gbs_api',
+		pageCount: 396,
+		thumbnail: 'http://books.google.com.br/books/content?id=_iVFgKTRYrQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+		snippet: '&quot;Practical recipes for visualizing data&quot;--Cover.',
+		description: '"Practical recipes for visualizing data"--Cover.',
+		publishedDate: '2013',
+		publisher: '"O\'Reilly Media, Inc."',
+		title: 'R Graphics Cookbook',
+		etag: '46vCkj6faDk',
+		bookID: '_iVFgKTRYrQC',
+		_id: 57 bbca18d5421c48265953cd,
+		industryIdentifiers: [
+			{
+				idType: 'ISBN_13',
+				identifier: '9781449316952'
+			}, {
+				idType: 'ISBN_10',
+				identifier: '1449316956'
+			}
+		],
+		categories: ['Computers'],
+		authors: ['Winston Chang']
+	}
+</script>

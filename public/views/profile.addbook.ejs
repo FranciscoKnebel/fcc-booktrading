@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Troca de Livros</title>
+
+		<% include ../snippets/head %>
+	</head>
+	<body onLoad="uncheck()">
+		<% include ../snippets/navbar %>
+
+		<div class="ui center aligned text container" id="top">
+			<h1>Add new book</h1>
+		</div>
+
+		<form class="ui center aligned text container stacked very padded segment centered form" action="/profile/add/book" method="post" id="form">
+
+			<div id="googleBooks">
+				<h3>
+					Using Google Books
+				</h3>
+				<div class="required field">
+					<label for="query">Query</label>
+					<input type="text" name="query" placeholder="Your query here"/>
+				</div>
+				<div class="field"></div>
+			</div>
+			<div id="customBook">
+				<h3>
+					Creating a new custom book
+				</h3>
+
+				<div class="required field">
+					<label for="title">Title</label>
+					<input type="text" name="title" placeholder="Title"/>
+				</div>
+				<div class="required field">
+					<label for="author">Author</label>
+					<input type="text" name="author" placeholder="Author"/>
+				</div>
+				<div class="required field">
+					<label for="description">Description</label>
+					<input type="text" name="description" placeholder="Description"/>
+				</div>
+				<div class="required field">
+					<label for="pageCount">Page Count</label>
+					<input type="text" name="pageCount" placeholder="Page Count"/>
+				</div>
+				<div class="required field">
+					<label for="thumbnail">Thumbnail</label>
+					<input type="text" name="thumbnail" placeholder="Thumbnail"/>
+				</div>
+				<div class="field"></div>
+			</div>
+
+			<div class="field">
+				<div class="ui toggle checkbox" id="custom">
+					<input type="checkbox" tabindex="0" name="custom" id="customCheckbox"/>
+					<label>Custom Book</label>
+				</div>
+			</div>
+			<input type="checkbox" tabindex="0" name="notcustom" id="notcustomCheckbox"/>
+
+			<div class="field">
+				<div class="ui primary submit button">Submit</div>
+				<div class="ui secondary reset button">Reset</div>
+			</div>
+		</form>
+
+		<% include ../snippets/footer %>
+		<% include ../snippets/JS %>
+		<script src="/js/profile.addbook.js"></script>
+	</body>
+</html>

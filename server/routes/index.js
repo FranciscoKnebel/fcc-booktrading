@@ -32,6 +32,10 @@ module.exports = function (app, dirname, passport, env, nev) {
 		});
 	});
 
+	app.get('/profile/add/book', isLoggedIn, function (req, res) {
+		res.render('profile.addbook.ejs', {user: req.user});
+	});
+
 	app.get('/profile/:id', function (req, res) {
 		const userID = req.params.id;
 
@@ -44,16 +48,23 @@ module.exports = function (app, dirname, passport, env, nev) {
 
 				if (user) {
 					res.render('profile.ejs', {
-						user: user,
+						user: req.user,
+						profile: user,
 						since: formatDate('{utc-day} of {utc-month-name}, {utc-year}', user.createdAt),
 						lastseen: dateDifference(user.updatedAt, new Date(), {compact: true})
 					});
 				} else {
-					res.render('profile.invalid.ejs', {link: userID});
+					res.render('profile.invalid.ejs', {
+						user: req.user,
+						link: userID
+					});
 				}
 			});
 		} else {
-			res.render('profile.invalid.ejs', {link: userID});
+			res.render('profile.invalid.ejs', {
+				user: req.user,
+				link: userID
+			});
 		}
 	});
 

@@ -1,9 +1,54 @@
+'use strict'
 const isLoggedIn = require('../../modules/isLoggedIn');
+var google = require('googleapis');
+var bookAPI = google.books('v1');
+var Book = require('../../models/book');
 
 module.exports = function (app, dirname) {
 
-	app.post('/profile/new/book', isLoggedIn, function (req, res) {
-		console.log("Great choice, mate");
+	app.post('/profile/add/book', isLoggedIn, function (req, res) {
+		if (req.body.custom) {
+			console.log("Creating book from req.body stuff");
+			res.send(true);
+		} else {
+			var query = req.body.query;
+
+			if (query) {
+				bookAPI.volumes.list({
+					q: query,
+					key: process.env.GOOGLEBOOKS_API_KEY
+				}, function (err, response) {
+					if (err)
+						console.error(err);
+
+					var books = [];
+					response.items.forEach(elem => {
+						let book = new Book();
+						books.push(book.create(elem));
+					});
+					req.user.temp = books;
+
+					if (!response.items) {
+						res.status(404).send(null);
+					} else {
+						res.render('profile.addbook.result.ejs', {
+							user: req.user,
+							results: books
+						});
+					}
+				});
+			} else {
+				res.render('profile.addbook.ejs', {user: req.user});
+			}
+		}
+	});
+
+	app.post('/profile/new/book/approve', isLoggedIn, function (req, res) {
+		console.log(req.body);
+
+		var user = req.user;
+		var bookWasAdded = user.addBook(book);
+		if (bookWasAdded) {} else {}
 	});
 
 	app.post('/profile/update/', isLoggedIn, function (req, res) {
@@ -52,7 +97,6 @@ module.exports = function (app, dirname) {
 			console.error("Invalid form action on profile update by user " + user.id + ": " + action);
 			res.redirect('/profile');
 		}
-
 	});
 
 	app.post('/profile/delete/books', isLoggedIn, function (req, res) {
