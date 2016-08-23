@@ -13,7 +13,12 @@ var userSchema = mongoose.Schema({
 	books: [
 		{
 			title: String,
-			cover: String,
+			description: String,
+			pictures: [String],
+			book: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Book'
+			},
 			requested: [
 				{
 					by: {
@@ -22,14 +27,14 @@ var userSchema = mongoose.Schema({
 					},
 					when: Date
 				}
-			],
-			pictures: [String]
+			]
 		}
 	],
 	link: String,
 	picture: String,
 	city: String,
-	phone: String
+	phone: String,
+	description: String
 }, {
 	timestamps: {
 		createdAt: 'createdAt',

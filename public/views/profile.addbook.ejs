@@ -12,7 +12,7 @@
 			<h1>Add new book</h1>
 		</div>
 
-		<form class="ui center aligned text container stacked very padded segment centered form" action="/profile/add/book" method="post" id="form">
+		<form class="ui center aligned text container stacked segment form" action="/profile/add/book" method="post" id="form">
 
 			<div id="googleBooks">
 				<h3>
@@ -20,7 +20,7 @@
 				</h3>
 				<div class="required field">
 					<label for="query">Query</label>
-					<input type="text" name="query" placeholder="Your query here"/>
+					<input type="text" name="query" placeholder="Your query here (like book title, author)"/>
 				</div>
 				<div class="field"></div>
 			</div>
@@ -39,13 +39,13 @@
 				</div>
 				<div class="required field">
 					<label for="description">Description</label>
-					<input type="text" name="description" placeholder="Description"/>
+					<textarea rows="2" style="margin-top: 0px; margin-bottom: 0px; height: 64px;" name="description" placeholder="Description"></textarea>
 				</div>
-				<div class="required field">
+				<div class="field">
 					<label for="pageCount">Page Count</label>
 					<input type="text" name="pageCount" placeholder="Page Count"/>
 				</div>
-				<div class="required field">
+				<div class="field">
 					<label for="thumbnail">Thumbnail</label>
 					<input type="text" name="thumbnail" placeholder="Thumbnail"/>
 				</div>

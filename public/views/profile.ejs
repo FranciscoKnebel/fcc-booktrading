@@ -10,7 +10,7 @@
 
 		<div class="ui center aligned raised segments text container" id="top">
 			<div class="ui segment">
-				<img src="<%= profile.picture %>" class="ui centered circular small image"/>
+				<img src="<%= profile.picture %>" class="ui centered circular bordered small image"/>
 				Contact Info
 				<p><%= profile.email %></p>
 				<p>
@@ -20,6 +20,13 @@
 					Member since
 					<strong><%= since %></strong>
 				</p>
+				<% if(profile.description) { %>
+					<h4 class="ui horizontal divider header">
+						<i class="tag icon"></i>
+						Description
+					</h4>
+					<code><%= profile.description %></code>
+				<% } %>
 			</div>
 			<div class="ui segment">
 				<% if(profile.books.length > 0) { %>

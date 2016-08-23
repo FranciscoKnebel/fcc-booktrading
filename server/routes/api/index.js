@@ -60,6 +60,7 @@ module.exports = function (app, dirname) {
 			//user.changeInformation('email', req.body.email);
 			user.changeInformation('city', req.body.city);
 			user.changeInformation('phone', req.body.phone);
+			user.changeInformation('description', req.body.description);
 			user.save(function (err) {
 				if (err) {
 					console.error(err);

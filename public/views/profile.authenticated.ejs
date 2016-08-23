@@ -115,8 +115,8 @@
 				<div class="active content">
 					<form class="ui equal width form" action="/profile/update" method="post">
 						<div class="ui stackable grid segment">
-							<div class="center aligned four wide column">
-								<div class="ui small circular bordered image" id="imgdim">
+							<div class="middle aligned center aligned four wide column">
+								<div class="ui medium circular bordered image" id="imgdim">
 									<div class="ui dimmer">
 										<div class="content">
 											<div class="center">
@@ -134,7 +134,7 @@
 									<div class="field">
 										<% if(user.picture == undefined || user.picture === "/img/profile.jpg" || user.picture.includes('//www.gravatar.com')) { %>
 											<label>Picture
-												<div class="horizontal ui teal label">Using Gravatar</div>
+												<a class="horizontal ui teal label" href="http://www.gravatar.com" target="_blank">Using Gravatar</a>
 											</label>
 
 											<input type="text" placeholder="Your picture url" name="picture">
@@ -156,6 +156,12 @@
 									<div class="field">
 										<label>Phone</label>
 										<input type="tel" placeholder="User phone number" name="phone" value="<%= user.phone %>">
+									</div>
+								</div>
+								<div class="fields">
+									<div class="field">
+										<label>Description</label>
+										<textarea rows="2" style="margin-top: 0px; margin-bottom: 0px; height: 64px;" name="description" placeholder="Description"><%= user.description %></textarea>
 									</div>
 								</div>
 								<div class="fields">

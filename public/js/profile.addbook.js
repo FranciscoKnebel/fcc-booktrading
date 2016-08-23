@@ -8,12 +8,12 @@ function formtype() {
 		$('#notcustomCheckbox').prop('checked', false);
 		$('#googleBooks').hide();
 		$('#customBook').fadeIn();
-		$('#form').addClass('piled').removeClass('stacked');
+		$('#form').removeClass('very padded piled').removeClass('stacked');
 	} else {
 		$('#notcustomCheckbox').prop('checked', true);
 		$('#customBook').hide();
 		$('#googleBooks').fadeIn();
-		$('#form').removeClass('piled').addClass('stacked');
+		$('#form').removeClass('very padded piled').addClass('stacked');
 	}
 }
 
@@ -32,7 +32,9 @@ $(document).ready(function () {
 
 	$('.ui.secondary.reset.button').click(function () {
 		uncheck();
-		formtype();
+		$('#customBook').hide();
+		$('#googleBooks').fadeIn();
+		$('#form').removeClass('very padded piled').addClass('stacked');
 	});
 
 	$('#form').form({
@@ -89,6 +91,7 @@ $(document).ready(function () {
 			},
 			pageCount: {
 				identifier: 'pageCount',
+				optional: true,
 				depends: 'custom',
 				rules: [
 					{
@@ -103,6 +106,7 @@ $(document).ready(function () {
 			thumbnail: {
 				identifier: 'thumbnail',
 				depends: 'custom',
+				optional: true,
 				rules: [
 					{
 						type: 'empty',
