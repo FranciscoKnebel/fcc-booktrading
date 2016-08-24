@@ -5,103 +5,136 @@
 
 		<% include ../snippets/head %>
 	</head>
-	<body>
+	<body ng-app="addbook">
 		<% include ../snippets/navbar %>
-
-		<div class="ui container" id="top">
-			<div class="ui three column stackable special cards grid">
-				<% results.forEach(book => { %>
-					<div class="ui centered card" id="<%= book.bookID %>">
-						<div class="content">
-							<img src="<%= book.thumbnail %>" class="ui left floated image">
-
-							<div class="header">
-								<a href="<%= book.bookURL %>" target="_blank">
-									<%= book.title %>
-								</a>
-							</div>
-
-							<% if(book.pageCount) { %>
-								<div class="meta">
-									<span>P.
-										<%= book.pageCount %></span>
-								</div>
-							<% } %>
-
-							<% if(book.authors) { %>
-								<% book.authors.forEach(author => { %>
-									<div class="meta">
-										<a><%= author %></a>
-									</div>
-								<% }); %>
-							<% } %>
-
-							<% if(book.categories) { %>
-								<% book.categories.forEach(category => { %>
-									<div class="extra content">
-										<a><%= category %></a>
-									</div>
-								<% }); %>
-							<% } %>
-
-							<div class="description">
-								<% if(book.description) { %>
-									<% if(book.description.length > 250) { %>
-										<span>
-											<%= book.description.substring(0,250) %>&hellip;
-										</span>
-									<% } else { %>
-										<span>
-											<%= book.description %>
-										</span>
-									<% } %>
-								<% } %>
-							</div>
-						</div>
-						<div class="ui two bottom attached buttons">
-							<div class="ui green button">
-								Select
-							</div>
-							<div class="ui primary button">
-								Delete
-							</div>
-						</div>
+		<div class="ui container" id="top" ng-controller="addbookController">
+			<script>
+				remaining = <%= results.length %>;
+			</script>
+			<% if(results.length > 1 ) { %>
+				<div class="ui centered padded grid container">
+					<div class="row">
+						<h3>
+							You have
+							<span>{{remaining}}</span>
+							remaining. You have picked
+							{{books.length}}.
+						</h3>
 					</div>
-				<% }); %>
+					<div class="row">
+						<div class="ui big primary button" ng-click="submitBooks()">
+							<span>Submit books to user library</span>
+						</div>
+						<a class="ui big secondary button" href="/profile" ng-show="remaining < 1">
+							<span>Go back to profile</span>
+						</a>
+					</div>
+				</div>
+
+				<div class="ui centered very padded grid container transition hidden" id="alldone">
+					<br><br>
+					<h1 ng-show="books.length > 0">All done! Now, submit your choices!</h1>
+					<h1 ng-hide="books.length > 0">All done!</h1>
+				</div>
+
+				<div class="ui three column stackable special raised cards padded grid">
+				<% } else { %>
+					<div class="ui centered padded grid container">
+						<div class="ui big blue button" ng-click="sendSingleBook()">
+							<span>Submit custom book to user library</span>
+						</div>
+						<a class="ui big secondary button" href="/profile">
+							<span>Go back to profile</span>
+						</a>
+					</div>
+
+					<div class="ui centered very padded grid container transition hidden" id="alldone">
+						<br><br>
+						<h1>All done!</h1>
+					</div>
+					<div class="ui three column centered stackable special raised cards padded grid">
+					<% } %>
+					<% results.forEach(book => { %>
+						<div class="green ui card" id="<%= book.id %>" style="text-align: left;">
+							<div class="content">
+								<% if(book.thumbnail) { %>
+									<div class="ui left floated image">
+										<img src="<%= book.thumbnail %>">
+									</div>
+								<% } else { %>
+									<div class="ui left floated image">
+										<svg width="100" height="100" data-jdenticon-hash="<%= book.hash %>"></svg>
+									</div>
+									<script src="/js/jdenticon.js"></script>
+								<% } %>
+								<div class="header">
+									<a href="<%= book.bookURL %>" target="_blank">
+										<%= book.title %>
+									</a>
+								</div>
+
+								<% if(book.pageCount) { %>
+									<div class="meta">
+										<span>P.
+											<%= book.pageCount %></span>
+									</div>
+								<% } %>
+
+								<% if(book.authors) { %>
+									<% book.authors.forEach(author => { %>
+										<div class="meta">
+											<a><%= author %></a>
+										</div>
+									<% }); %>
+								<% } %>
+
+								<div class="meta">
+									<span><%= book.publishedDate %></span>
+								</div>
+
+								<% if(book.categories) { %>
+									<% book.categories.forEach(category => { %>
+										<div class="extra content">
+											<a><%= category %></a>
+										</div>
+									<% }); %>
+								<% } %>
+
+								<div class="description">
+									<% if(book.description) { %>
+										<% if(book.description.length > 250) { %>
+											<span>
+												<%= book.description.substring(0,250) %>&hellip;
+											</span>
+										<% } else { %>
+											<span>
+												<%= book.description %>
+											</span>
+										<% } %>
+									<% } %>
+								</div>
+							</div>
+							<div class="ui two bottom attached buttons">
+								<div class="ui green button" ng-click="addBook('<%= book.id %>')">
+									<i class="add icon"></i>
+									Add Book
+								</div>
+								<div class="ui red button" ng-click="removeBook('<%= book.id %>')">
+									<i class="close icon"></i>
+									Delete
+								</div>
+							</div>
+						</div>
+					<% }); %>
+				</div>
 			</div>
-		</div>
 
-		<% include ../snippets/footer %>
-		<% include ../snippets/JS %>
-		<script type="text/javascript">
-			$('.special.cards .image').dimmer({on: 'hover'});
-		</script>
-	</body>
-</html>
-
-<script type="text/javascript">
-	{
-		bookURL: 'http://books.google.com.br/books?id=_iVFgKTRYrQC&printsec=frontcover&dq=r&hl=&cd=1&source=gbs_api',
-		pageCount: 396,
-		thumbnail: 'http://books.google.com.br/books/content?id=_iVFgKTRYrQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
-		snippet: '&quot;Practical recipes for visualizing data&quot;--Cover.',
-		description: '"Practical recipes for visualizing data"--Cover.',
-		publishedDate: '2013',
-		publisher: '"O\'Reilly Media, Inc."',
-		title: 'R Graphics Cookbook',
-		etag: '46vCkj6faDk',
-		bookID: '_iVFgKTRYrQC',
-		_id: 57 bbca18d5421c48265953cd,
-		industryIdentifiers: [
-			{
-				idType: 'ISBN_13',
-				identifier: '9781449316952'
-			}, {
-				idType: 'ISBN_10',
-				identifier: '1449316956'
-			}
-		],
-		categories: ['Computers'],
-		authors: ['Winston Chang']
-	}
-</script>
+			<% include ../snippets/footer %>
+			<% include ../snippets/JS %>
+			<script type="text/javascript">
+				$('.special .image').dimmer({on: 'hover'});
+			</script>
+			<script src="/js/angular.js"></script>
+			<script src="/js/profile.addbook.result.controller.js"></script>
+		</body>
+	</html>

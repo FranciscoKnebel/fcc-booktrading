@@ -10,9 +10,11 @@ module.exports = function (app, dirname) {
 		app.use('/css/semantic.css', express.static(dirname + '/node_modules/semantic-ui/dist/semantic.min.css'));
 		app.use('/js/jquery.js', express.static(dirname + '/node_modules/jquery/dist/jquery.min.js'));
 		app.use('/js/angular.js', express.static(dirname + '/node_modules/angular/angular.min.js'));
+		app.use('/js/jdenticon.js', express.static(dirname + '/node_modules/jdenticon/dist/jdenticon.min.js'));
 	}
 	app.use('/js', express.static(dirname + '/node_modules/semantic-ui/dist/'));
 	app.use('/css', express.static(dirname + '/node_modules/semantic-ui/dist/'));
 	app.use('/js', express.static(dirname + '/node_modules/jquery/dist'));
 	app.use('/js', express.static(dirname + '/node_modules/angular'));
+	app.use('/js', express.static(dirname + '/node_modules/jdenticon/dist/'));
 };

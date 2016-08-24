@@ -4,6 +4,7 @@ var User = require('../models/user');
 const shortid = require('shortid');
 const formatDate = require('format-date');
 const dateDifference = require('date-difference');
+const sha1 = require('sha1');
 
 module.exports = function (app, dirname, passport, env, nev) {
 	require('./static')(app, dirname);
