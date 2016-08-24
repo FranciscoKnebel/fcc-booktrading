@@ -3,7 +3,7 @@ $('.message .close').on('click', function () {
 });
 
 $('.ui.accordion').accordion({exclusive: false});
-
+$('.ui.checkbox').checkbox();
 $('#imgdim').dimmer({on: 'hover'});
 
 function checkWidth(init) {

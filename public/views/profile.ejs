@@ -10,10 +10,25 @@
 
 		<div class="ui center aligned raised segments text container" id="top">
 			<div class="ui segment">
+				<h4><%= profile.email %></h4>
+				/profile/<%= profile.link %>
+			</div>
+
+			<div class="ui segment">
 				<img src="<%= profile.picture %>" class="ui centered circular bordered small image"/>
-				Contact Info
-				<p><%= profile.email %></p>
+				<address>
+					Contact Info
+					<br>
+					<%= profile.email %><br>
+					<strong><%= profile.city %></strong>
+					<% if(profile.toggles.publicInformation) { %>
+						<br>
+						<strong><%= profile.phone %></strong>
+					<% } %>
+				</address>
+
 				<p>
+					<br>
 					Last activity:
 					<strong><%= lastseen %></strong>
 					<br>
@@ -21,11 +36,13 @@
 					<strong><%= since %></strong>
 				</p>
 				<% if(profile.description) { %>
-					<h4 class="ui horizontal divider header">
-						<i class="tag icon"></i>
-						Description
-					</h4>
-					<code><%= profile.description %></code>
+					<% if(!profile.toggles.hideDescription) { %>
+						<h4 class="ui horizontal divider header">
+							<i class="tag icon"></i>
+							Description
+						</h4>
+						<code><%= profile.description %></code>
+					<% } %>
 				<% } %>
 			</div>
 			<div class="ui segment">

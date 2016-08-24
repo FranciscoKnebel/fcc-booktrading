@@ -72,6 +72,7 @@ module.exports = function (passport, mongoose, nev) {
 						s: '200',
 						d: 'identicon'
 					});
+					newUser.toggles.publicInformation = false;
 
 					nev.createTempUser(newUser, function (err, existingPersistentUser, newTempUser) {
 						if (err) {

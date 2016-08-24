@@ -34,7 +34,11 @@ var userSchema = mongoose.Schema({
 	picture: String,
 	city: String,
 	phone: String,
-	description: String
+	description: String,
+	toggles: {
+		publicInformation: Boolean,
+		hideDescription: Boolean
+	}
 }, {
 	timestamps: {
 		createdAt: 'createdAt',
@@ -96,6 +100,14 @@ userSchema.methods.changeInformation = function (property, value) {
 	}
 
 	this.markModified(property);
+	return this;
+}
+
+userSchema.methods.changeToggles = function (toggles) {
+	this.toggles.publicInformation = (toggles.publicInformation == 'on')
+	this.toggles.hideDescription = (toggles.hideDescription == 'on')
+
+	this.markModified(toggles);
 	return this;
 }
 

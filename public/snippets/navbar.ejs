@@ -1,16 +1,19 @@
 <% if(typeof user !== "undefined") { %>
-	<div class="ui red top fixed large inverted menu">
-		<a href="/" class="header item">
+	<div class="ui red top fixed large inverted borderless menu">
+		<a href="/" class="header item navitem">
 			<img src="/favicon.ico" class="ui avatar image"/>
 		</a>
 		<div class="right menu">
-			<a href="/profile/<%= user.link %>" class="item link">
-				<p>Profile</p>
+			<a href="/profile/add/book" class="item icon navitem">
+				<i class="large book icon"></i>
 			</a>
-			<a href="/profile" class="item">
+			<a href="/profile/<%= user.link %>" class="item icon navitem">
+				<i class="large users icon"></i>
+			</a>
+			<a href="/profile" class="item navitem">
 				<img class="ui bordered avatar image" src="<%= user.picture %>"/>
 			</a>
-			<a href="/logout" class="active item icon">
+			<a href="/logout" class="active item icon navitem">
 				<i class="large sign out icon"></i>
 			</a>
 		</div>
