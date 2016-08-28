@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/css/semantic.css">
-<link rel="stylesheet" href="/css/theme.css">
 
 <% if(typeof user === "undefined") { %>
+	<link rel="stylesheet" href="/css/theme.css">
 	<style>
 		.menu.or:before {
 			background-color: black !important;
@@ -9,4 +9,17 @@
 		}
 
 	</style>
+<% } else { %>
+	<% switch(user.configs.theme) { case 1: %>
+	<link rel="stylesheet" href="/css/theme.css">
+	<% break; %>
+	<% case 2: %>
+	<link rel="stylesheet" href="/css/theme2.css">
+	<% break; %>
+	<% case 3: %>
+	<link rel="stylesheet" href="/css/theme3.css">
+	<% break; %>
+	<% default: %>
+	<link rel="stylesheet" href="/css/theme.css">
+<% } %>
 <% } %>

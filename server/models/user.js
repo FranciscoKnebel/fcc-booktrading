@@ -1,3 +1,5 @@
+'use strict'
+
 const notFound = -1;
 
 var mongoose = require('mongoose');
@@ -5,6 +7,7 @@ var bcrypt = require('bcrypt-nodejs');
 const isImageUrl = require('is-image-url');
 const capitalize = require('capitalize');
 const gravatar = require('gravatar');
+var shortid = require('shortid');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
@@ -27,17 +30,25 @@ var userSchema = mongoose.Schema({
 					},
 					when: Date
 				}
-			]
+			],
+			link: {
+				type: String,
+				'default': shortid.generate
+			}
 		}
 	],
-	link: String,
+	link: {
+		type: String,
+		'default': shortid.generate
+	},
 	picture: String,
 	city: String,
 	phone: String,
 	description: String,
-	toggles: {
+	configs: {
 		publicInformation: Boolean,
-		hideDescription: Boolean
+		hideDescription: Boolean,
+		theme: Number
 	}
 }, {
 	timestamps: {
@@ -57,18 +68,36 @@ userSchema.methods.validPassword = function (password) {
 };
 
 userSchema.methods.addBook = function (book) {
-	var index = findOptionIndex(this.books, 'id', book.id);
-
-	if (index === notFound) {
-		this.books.push(book);
-		return this.books;
-	} else {
-		console.log("Book " + book.id + " already added.");
-		return false;
+	var obj = {
+		title: book.title,
+		description: "",
+		book: book
 	}
+
+	this.books.push(obj);
+	return this.books;
 }
 
-userSchema.methods.removeBook = function (book) {
+userSchema.methods.findAndAddBook = function (bookID, collection) {
+	for (let i = 0; i < collection.length; i++) {
+		if (collection[i]._id === bookID) {
+			var book = collection[i];
+
+			var obj = {
+				title: book.title,
+				description: "",
+				book: book
+			}
+
+			this.books.push(obj);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/*userSchema.methods.removeBook = function (book) {
 	var index = findOptionIndex(this.books, 'id', book.id);
 
 	if (index === notFound) {
@@ -77,7 +106,7 @@ userSchema.methods.removeBook = function (book) {
 		this.books.splice(index, 1);
 		return this.books;
 	}
-}
+}*/
 
 userSchema.methods.changeInformation = function (property, value) {
 	if (this[property] !== value) {
@@ -103,11 +132,17 @@ userSchema.methods.changeInformation = function (property, value) {
 	return this;
 }
 
-userSchema.methods.changeToggles = function (toggles) {
-	this.toggles.publicInformation = (toggles.publicInformation == 'on')
-	this.toggles.hideDescription = (toggles.hideDescription == 'on')
+userSchema.methods.changeConfigs = function (configs) {
+	this.configs.publicInformation = (configs.publicInformation == 'on')
+	this.configs.hideDescription = (configs.hideDescription == 'on')
 
-	this.markModified(toggles);
+	if (configs.theme == "" || configs.theme === 0) {
+		this.configs.theme = 1;
+	} else {
+		this.configs.theme = configs.theme;
+	}
+
+	this.markModified(configs);
 	return this;
 }
 
@@ -115,7 +150,7 @@ userSchema.methods.getRequestedBooks = function () {
 	var requested = [];
 
 	for (var i = 0; i < this.books.length; i++) {
-		if (this.books[i].requested) { //book is requested by at least one person
+		if (this.books[i].requested > 0) { //book is requested by at least one person
 			requested.push(this.books[i]);
 		}
 	}

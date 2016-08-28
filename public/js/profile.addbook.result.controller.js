@@ -34,11 +34,19 @@ app.controller('addbookController', function ($scope, $http, $location) {
 	};
 
 	$scope.submitBooks = function () {
-		$http.post('', $scope.books).then(function (response) {}, function (response) {});
+		$http.post('/profile/add/book/approve', $scope.books).then(function (response) {
+			console.log(response.data);
+		}, function (response) {
+			console.log(response);
+		});
 	}
 
 	$scope.sendSingleBook = function () {
-		$http.post('', $scope.books).then(function (response) {}, function (response) {});
+		$http.post('/profile/add/book/approve', $scope.books).then(function (response) {
+			console.log(response);
+		}, function (response) {
+			console.log(response);
+		});
 	}
 
 });

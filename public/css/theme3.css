@@ -1,0 +1,42 @@
+body {
+  background-color: #111111;
+}
+
+.black {
+  color: white !important;
+}
+
+i.black.icon {
+  color: white !important;
+}
+
+.text-white {
+  color: black;
+}
+
+#top {
+  margin-top: 100px;
+}
+
+footer {
+  padding: 50px 0;
+}
+
+a {
+  transition: 1s;
+  color: #a03232;
+}
+
+a:focus, a:hover {
+  transition: 1s;
+	color: #014c8c;
+}
+
+.nojs {
+  display: none !important;
+}
+
+.navitem {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

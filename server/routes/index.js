@@ -1,6 +1,7 @@
 'use strict';
 var isLoggedIn = require('../modules/isLoggedIn');
 var User = require('../models/user');
+var Book = require('../models/book');
 const shortid = require('shortid');
 const formatDate = require('format-date');
 const dateDifference = require('date-difference');
@@ -26,11 +27,16 @@ module.exports = function (app, dirname, passport, env, nev) {
 	});
 
 	app.get('/profile', isLoggedIn, function (req, res) {
+		//	User.find().populate('books.book').exec(function (err, x) {
+		//console.log(x);
+		//	req.user.populate('')
+
 		res.render('profile.authenticated.ejs', {
 			user: req.user,
 			message: req.flash('profile.authenticated'),
 			requested: req.user.getRequestedBooks()
 		});
+		//});
 	});
 
 	app.get('/profile/add/book', isLoggedIn, function (req, res) {

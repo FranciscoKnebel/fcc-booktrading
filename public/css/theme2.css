@@ -1,0 +1,46 @@
+body {
+  background-color: #EA7584;
+}
+
+.ui.segments{
+  background-color: antiquewhite !important;
+}
+
+.ui.segment{
+  background-color: antiquewhite !important;
+}
+
+.ui.card {
+    background-color: antiquewhite !important;
+}
+
+.text-white {
+  color: white;
+}
+
+#top {
+  margin-top: 100px;
+}
+
+footer {
+  padding: 50px 0;
+}
+
+a {
+  transition: 1s;
+  color: #014c8c;
+}
+
+a:focus, a:hover {
+  transition: 1s;
+	color: #a03232;
+}
+
+.nojs {
+  display: none !important;
+}
+
+.navitem {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

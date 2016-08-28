@@ -25,7 +25,7 @@ var bookSchema = mongoose.Schema({
 	bookURL: String,
 	custom: Boolean,
 	hash: String,
-	_id: {
+	link: {
 		type: String,
 		'default': shortid.generate
 	}

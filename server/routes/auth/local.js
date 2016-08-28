@@ -42,6 +42,9 @@ module.exports = function (app, passport, nev) {
 			}
 
 			if (user) {
+				user.changeConfigs({publicInformation: false, hideDescription: true, theme: 1});
+				user.save();
+
 				res.render('verify.ejs', {
 					message: "User " + user.email + " is now verified.",
 					verifying: true

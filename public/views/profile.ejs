@@ -21,7 +21,7 @@
 					<br>
 					<%= profile.email %><br>
 					<strong><%= profile.city %></strong>
-					<% if(profile.toggles.publicInformation) { %>
+					<% if(profile.configs.publicInformation) { %>
 						<br>
 						<strong><%= profile.phone %></strong>
 					<% } %>
@@ -36,7 +36,7 @@
 					<strong><%= since %></strong>
 				</p>
 				<% if(profile.description) { %>
-					<% if(!profile.toggles.hideDescription) { %>
+					<% if(!profile.configs.hideDescription) { %>
 						<h4 class="ui horizontal divider header">
 							<i class="tag icon"></i>
 							Description

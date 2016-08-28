@@ -28,7 +28,7 @@
 					Pending requests
 					<% if(hasPendingRequests) { %>
 						<div class="horizontal ui red label">
-							<%= pending.length %>
+							<%= requested.length %>
 						</div>
 					<% } %>
 				</div>
@@ -103,7 +103,22 @@
 						<% } else { %>
 							<!-- Show all books -->
 							<!-- Only show 6 books, rest go to user library -->
-							<p><%= user.books %></p>
+							<% console.log(user.books); %>
+							<% for (var i = 0; i < user.books.length && i < 6; i++) { %>
+								<div class="ui card">
+									<div class="content">
+										<div class="header">
+											<a href="/book/<%= user.books[i].link %>"><%= user.books[i].title %></a>
+										</div>
+
+										<div class="meta"><%= user.books[i].book %></div>
+
+										<div class="description"><%= user.books[i].description %></div>
+
+										<div class="extra content"></div>
+									</div>
+								</div>
+							<% } %>
 						<% } %>
 					</div>
 				</div>
@@ -158,23 +173,37 @@
 										<input type="tel" placeholder="User phone number" name="phone" value="<%= user.phone %>">
 									</div>
 								</div>
-								<div class="fields">
-									<div class="inline field">
+								<div class="inline fields">
+									<div class="field">
 										<div class="ui checkbox">
-											<label>Show Phone Number</label>
-											<input class="hidden" tabindex="0" type="checkbox" name="publicInformation" <% if(user.toggles.publicInformation) {%> checked <% } %>/>
+											<label for="publicInformation">Show Phone Number</label>
+											<input class="hidden" tabindex="0" type="checkbox" name="publicInformation" <% if(user.configs.publicInformation) {%> checked <% } %>/>
 										</div>
 									</div>
-									<div class="inline field">
+									<div class="field">
 										<div class="ui disabled checkbox">
-											<label>Show Social Media Accounts</label>
-											<input class="hidden" tabindex="0" type="checkbox"/>
+											<label for="showSocialMedia">Show Social Media</label>
+											<input class="hidden" tabindex="0" type="checkbox" name="showSocialMedia"/>
 										</div>
 									</div>
-									<div class="inline field">
+									<div class="field">
 										<div class="ui checkbox">
-											<label>Hide description</label>
-											<input class="hidden" tabindex="0" type="checkbox" name="hideDescription" <% if(user.toggles.hideDescription) {%> checked <% } %>/>
+											<label for="hideDescription">Hide description</label>
+											<input class="hidden" tabindex="0" type="checkbox" name="hideDescription" <% if(user.configs.hideDescription) {%> checked <% } %>/>
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui selection dropdown">
+											<input type="hidden" name="theme">
+											<i class="dropdown icon"></i>
+											<div class="default text">
+												Default Theme
+											</div>
+											<div class="menu">
+												<div class="item" data-value="1">Default Theme</div>
+												<div class="item" data-value="2">Deep Blush</div>
+												<div class="item" data-value="3">Dark Theme</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -205,8 +234,12 @@
 				</div>
 			</div>
 		</div>
+
 		<% include ../snippets/footer %>
 		<% include ../snippets/JS %>
 		<script src="/js/profile.authenticated.js"></script>
+		<script type="text/javascript">
+			$('.selection.dropdown').dropdown('set selected', <%= user.configs.theme %>);
+		</script>
 	</body>
 </html>

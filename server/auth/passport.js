@@ -67,12 +67,11 @@ module.exports = function (passport, mongoose, nev) {
 
 					newUser.email = email;
 					newUser.password = newUser.generateHash(password);
-					newUser.link = shortid.generate();
 					newUser.picture = gravatar.url(email, {
 						s: '200',
 						d: 'identicon'
 					});
-					newUser.toggles.publicInformation = false;
+					newUser.changeConfigs({publicInformation: false, hideDescription: true, theme: 1});
 
 					nev.createTempUser(newUser, function (err, existingPersistentUser, newTempUser) {
 						if (err) {

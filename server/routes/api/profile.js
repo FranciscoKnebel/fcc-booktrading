@@ -8,13 +8,14 @@ var Book = require('../../models/book');
 module.exports = function (app, dirname) {
 	//add
 	app.post('/profile/add/book', isLoggedIn, function (req, res) {
+		req.session.temp = [];
+
 		if (req.body.custom) {
 			var book = new Book();
 			var books = [];
 
-			req.user.temp = book.createCustom(req.body);
+			req.session.temp.push(book.createCustom(req.body));
 			books.push(book);
-
 			res.render('profile.addbook.result.ejs', {
 				user: req.user,
 				results: books
@@ -35,7 +36,8 @@ module.exports = function (app, dirname) {
 						let book = new Book();
 						books.push(book.create(elem));
 					});
-					req.user.temp = books;
+
+					req.session.temp = books;
 
 					if (!response.items) {
 						res.status(404).send(null);
@@ -53,17 +55,35 @@ module.exports = function (app, dirname) {
 	});
 
 	app.post('/profile/add/book/approve', isLoggedIn, function (req, res) {
-		console.log(req.body);
+		var tempBookCollection = req.session.temp;
+		var chosenBooks = req.body;
 
-		var user = req.user;
-		var bookWasAdded = user.addBook(book);
-		if (bookWasAdded) {} else {}
+		if (chosenBooks.length >= 1) {
+			var user = req.user;
+			for (let i = 0; i < chosenBooks.length; i++) {
+				user.findAndAddBook(chosenBooks[i], tempBookCollection)
+			}
+
+			user.save(function (err) {
+				if (err) {
+					console.error(err);
+				}
+				res.send(true);
+			});
+		} else {
+			res.send(false);
+		}
 	});
 
 	//delete
 	app.post('/profile/delete/books', isLoggedIn, function (req, res) {
 		console.log("But whyyyyy 3");
 		console.log(req.body); //array of book IDs.
+
+		//delete book from user
+		//delete book from books collection
+
+		res.send(true);
 	});
 
 	//update
@@ -77,7 +97,7 @@ module.exports = function (app, dirname) {
 			user.changeInformation('city', req.body.city);
 			user.changeInformation('phone', req.body.phone);
 			user.changeInformation('description', req.body.description);
-			user.changeToggles({publicInformation: req.body.publicInformation, hideDescription: req.body.hideDescription});
+			user.changeConfigs({publicInformation: req.body.publicInformation, hideDescription: req.body.hideDescription, theme: req.body.theme});
 			user.save(function (err) {
 				if (err) {
 					console.error(err);
