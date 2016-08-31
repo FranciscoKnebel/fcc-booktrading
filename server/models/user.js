@@ -69,8 +69,8 @@ userSchema.methods.validPassword = function (password) {
 
 userSchema.methods.addBook = function (book) {
 	var obj = {
-		title: book.title,
-		description: "",
+		title: book.title || undefined,
+		description: book.description || undefined,
 		book: book
 	}
 
@@ -85,7 +85,7 @@ userSchema.methods.findAndAddBook = function (bookID, collection) {
 
 			var obj = {
 				title: book.title,
-				description: "",
+				description: book.description,
 				book: book
 			}
 

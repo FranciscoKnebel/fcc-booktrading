@@ -11,6 +11,17 @@
 			<script>
 				remaining = <%= results.length %>;
 			</script>
+
+			<div class="ui centered padded grid container">
+				<div class="ui message" ng-show="message">
+					<i class="close icon" ng-click="closeMessage()"></i>
+					<h2 class="header">Message</h2>
+					<p>
+						{{message}}
+					</p>
+				</div>
+			</div>
+
 			<% if(results.length > 1 ) { %>
 				<div class="ui centered padded grid container">
 					<div class="row">

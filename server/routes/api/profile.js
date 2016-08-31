@@ -60,18 +60,29 @@ module.exports = function (app, dirname) {
 
 		if (chosenBooks.length >= 1) {
 			var user = req.user;
+			let booksAdded = 0;
+
 			for (let i = 0; i < chosenBooks.length; i++) {
-				user.findAndAddBook(chosenBooks[i], tempBookCollection)
+				if (user.findAndAddBook(chosenBooks[i], tempBookCollection)) {
+					booksAdded++;
+				}
 			}
 
-			user.save(function (err) {
-				if (err) {
-					console.error(err);
-				}
-				res.send(true);
-			});
+			if (booksAdded > 0) {
+				user.save(function (err) {
+					if (err) {
+						console.error(err);
+					}
+
+					if (booksAdded > 1) {
+						res.send("Added " + booksAdded + " books to account.");
+					} else {
+						res.send("Added a single book to account.");
+					}
+				});
+			}
 		} else {
-			res.send(false);
+			res.status(406).send("Invalid amount of books sent. You need to add at least one book.");
 		}
 	});
 
