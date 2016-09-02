@@ -77,8 +77,8 @@
 					<% } %>
 				</div>
 				<div class="content">
-					<div class="ui items">
-						<% if(!hasOwnedBooks) { %>
+					<% if(!hasOwnedBooks) { %>
+						<div class="ui items">
 							<div class="item">
 								<div class="content">
 									<a class="header">
@@ -100,27 +100,40 @@
 									</div>
 								</div>
 							</div>
-						<% } else { %>
-							<!-- Show all books -->
-							<!-- Only show 6 books, rest go to user library -->
-							<% console.log(user.books); %>
+						</div>
+					<% } else { %>
+						<!-- Show all books -->
+						<!-- Only show 6 books, rest go to user library -->
+						<div class="ui centered doubling cards">
 							<% for (var i = 0; i < user.books.length && i < 6; i++) { %>
-								<div class="ui card">
+								<div class="card">
 									<div class="content">
+										<i class="right floated delete icon"></i>
 										<div class="header">
 											<a href="/book/<%= user.books[i].link %>"><%= user.books[i].title %></a>
 										</div>
 
 										<div class="meta"><%= user.books[i].book %></div>
-
-										<div class="description"><%= user.books[i].description %></div>
-
-										<div class="extra content"></div>
+									</div>
+									<div class="extra content">
+										<div class="description">
+											<% if(user.books[i].description) { %>
+												<% if(user.books[i].description.length > 150) { %>
+													<p>
+														<%= user.books[i].description.substring(0,150) %>&hellip;
+													</p>
+												<% } else { %>
+													<p>
+														<%= user.books[i].description %>
+													</p>
+												<% } %>
+											<% } %>
+										</div>
 									</div>
 								</div>
 							<% } %>
-						<% } %>
-					</div>
+						</div>
+					<% } %>
 				</div>
 
 				<div class="active title">
@@ -220,7 +233,7 @@
 									<div class="field">
 										<div class="fields">
 											<div class="field">
-												<button class="ui fluid orange button" type="submit" value="deletebooks" name="update" onclick="return confirm('Are you sure you want to delete all books? There is no going back.')">Delete all books</button>
+												<button class="ui fluid orange disabled button" type="submit" value="deletebooks" name="update" onclick="return confirm('Are you sure you want to delete all books? There is no going back.')">Delete all books</button>
 											</div>
 											<div class="field">
 												<button class="ui fluid negative button" type="submit" value="deleteaccount" name="update" onclick="return confirm('Are you sure you want to delete your account? There is no going back.')">Delete account</button>

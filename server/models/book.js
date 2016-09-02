@@ -43,6 +43,7 @@ bookSchema.methods.changeInformation = function (property, value) {
 		return false;
 	}
 
+	this.custom = true;
 	this.markModified(property);
 	return this;
 }
@@ -91,6 +92,32 @@ bookSchema.methods.createCustom = function (volume) {
 	this.bookURL = '/book/' + this.id;
 
 	return this;
+}
+
+bookSchema.methods.update = function (book) {
+	this.bookID = book.bookID;
+	this.etag = book.etag;
+	this.title = book.title;
+	this.authors = book.authors;
+	this.publisher = book.publisher;
+	this.publishedDate = book.publishedDate;
+	this.description = book.description;
+	if (book.searchInfo) {
+		this.snippet = book.snippet;
+	}
+	if (book.imageLinks) {
+		this.thumbnail = book.thumbnail;
+	}
+	this.pageCount = book.pageCount;
+	this.categories = book.categories;
+	if (book.industryIdentifiers) {
+		book.industryIdentifiers.forEach(elem => {
+			this.industryIdentifiers.push(elem);
+		});
+	}
+	this.bookURL = book.bookURL;
+	this.custom = book.custom;
+	this.hash = book.hash;
 }
 
 // create the model for users and expose it to our app

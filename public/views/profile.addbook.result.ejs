@@ -12,7 +12,7 @@
 				remaining = <%= results.length %>;
 			</script>
 
-			<div class="ui centered padded grid container">
+			<div class="ui text container" style="margin-bottom: 2rem; text-align: center;">
 				<div class="ui message" ng-show="message">
 					<i class="close icon" ng-click="closeMessage()"></i>
 					<h2 class="header">Message</h2>
@@ -33,7 +33,7 @@
 						</h3>
 					</div>
 					<div class="row">
-						<div class="ui big primary button" ng-click="submitBooks()">
+						<div class="ui big primary button" ng-click="submitBooks()" ng-class="{'disabled': disableSubmit}">
 							<span>Submit books to user library</span>
 						</div>
 						<a class="ui big secondary button" href="/profile" ng-show="remaining < 1">
@@ -51,7 +51,7 @@
 				<div class="ui three column stackable special raised cards padded grid">
 				<% } else { %>
 					<div class="ui centered padded grid container">
-						<div class="ui big blue button" ng-click="sendSingleBook()">
+						<div class="ui big blue button" ng-click="sendSingleBook()" ng-class="{'disabled': disableSubmit}">
 							<span>Submit custom book to user library</span>
 						</div>
 						<a class="ui big secondary button" href="/profile">

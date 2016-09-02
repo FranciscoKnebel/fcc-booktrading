@@ -7,6 +7,7 @@ app.controller('addbookController', function ($scope, $http, $location) {
 	$scope.books = [];
 	$scope.remaining = window.remaining;
 	$scope.message = "";
+	$scope.disableSubmit = false;
 
 	$scope.addBook = function (id) {
 		if ($scope.books.indexOf(id) === -1) {
@@ -38,6 +39,10 @@ app.controller('addbookController', function ($scope, $http, $location) {
 	};
 
 	$scope.submitBooks = function () {
+		if ($scope.remaining === 0) {
+			$scope.disableSubmit = true;
+		}
+
 		if ($scope.books.length >= 1) {
 			$http.post('/profile/add/book/approve', $scope.books).then(function (response) {
 				$scope.message = response.data;
@@ -54,6 +59,10 @@ app.controller('addbookController', function ($scope, $http, $location) {
 	}
 
 	$scope.sendSingleBook = function () {
+		if ($scope.remaining === 0) {
+			$scope.disableSubmit = true;
+		}
+
 		if ($scope.books.length === 1) {
 			$http.post('/profile/add/book/approve', $scope.books).then(function (response) {
 				$scope.message = response.data;

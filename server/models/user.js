@@ -8,6 +8,8 @@ const isImageUrl = require('is-image-url');
 const capitalize = require('capitalize');
 const gravatar = require('gravatar');
 var shortid = require('shortid');
+var autopopulate = require('mongoose-autopopulate');
+var Book = require('./book');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
@@ -20,13 +22,17 @@ var userSchema = mongoose.Schema({
 			pictures: [String],
 			book: {
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Book'
+				ref: 'Book',
+				autopopulate: true
 			},
 			requested: [
 				{
 					by: {
 						type: mongoose.Schema.Types.ObjectId,
-						ref: 'User'
+						ref: 'User',
+						autopopulate: {
+							select: 'email link picture city phone'
+						}
 					},
 					when: Date
 				}
@@ -57,6 +63,8 @@ var userSchema = mongoose.Schema({
 	}
 });
 
+userSchema.plugin(autopopulate);
+
 // generating a hash
 userSchema.methods.generateHash = function (password) {
 	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -81,14 +89,17 @@ userSchema.methods.addBook = function (book) {
 userSchema.methods.findAndAddBook = function (bookID, collection) {
 	for (let i = 0; i < collection.length; i++) {
 		if (collection[i]._id === bookID) {
-			var book = collection[i];
+			var newBook = new Book();
+			newBook.update(collection[i]);
+			newBook.save();
 
 			var obj = {
-				title: book.title,
-				description: book.description,
-				book: book
+				title: newBook.title,
+				description: newBook.description,
+				book: newBook
 			}
 
+			collection.splice(i, 1);
 			this.books.push(obj);
 			return true;
 		}
