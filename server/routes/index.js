@@ -13,9 +13,14 @@ module.exports = function (app, dirname, passport, env, nev) {
 	require('./api/index')(app, dirname);
 
 	app.get('/', function (req, res) {
-		if (req.isAuthenticated())
-			res.render('index.authenticated.ejs', {user: req.user});
-		else {
+		if (req.isAuthenticated()) {
+			Book.findRandom({isFree: true}).limit(6).exec(function (err, books) {
+				res.render('index.authenticated.ejs', {
+					user: req.user,
+					books: books
+				});
+			});
+		} else {
 			res.render('index.ejs');
 		}
 	});
@@ -27,16 +32,11 @@ module.exports = function (app, dirname, passport, env, nev) {
 	});
 
 	app.get('/profile', isLoggedIn, function (req, res) {
-		//	User.find().populate('books.book').exec(function (err, x) {
-		//console.log(x);
-		//	req.user.populate('')
-
 		res.render('profile.authenticated.ejs', {
 			user: req.user,
 			message: req.flash('profile.authenticated'),
 			requested: req.user.getRequestedBooks()
 		});
-		//});
 	});
 
 	app.get('/profile/add/book', isLoggedIn, function (req, res) {
@@ -71,6 +71,37 @@ module.exports = function (app, dirname, passport, env, nev) {
 			res.render('profile.invalid.ejs', {
 				user: req.user,
 				link: userID
+			});
+		}
+	});
+
+	app.get('/book/:id', function (req, res) {
+		const bookID = req.params.id;
+		if (shortid.isValid(bookID)) {
+			Book.findOne({
+				'link': bookID
+			}, function (err, book) {
+				if (err)
+					console.error(err);
+
+				if (book) {
+					res.render('book.ejs', {
+						user: req.user,
+						book: book
+					});
+				} else {
+					res.render('book.invalid.ejs', {
+						user: req.user,
+						link: bookID,
+						background: '/img/library/m/library-m.jpg'
+					});
+				}
+			});
+		} else {
+			res.render('book.invalid.ejs', {
+				user: req.user,
+				link: bookID,
+				background: '/img/library/m/library2-m.jpg'
 			});
 		}
 	});

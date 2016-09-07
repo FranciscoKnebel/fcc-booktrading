@@ -17,9 +17,6 @@ var userSchema = mongoose.Schema({
 	password: String,
 	books: [
 		{
-			title: String,
-			description: String,
-			pictures: [String],
 			book: {
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Book',
@@ -36,11 +33,7 @@ var userSchema = mongoose.Schema({
 					},
 					when: Date
 				}
-			],
-			link: {
-				type: String,
-				'default': shortid.generate
-			}
+			]
 		}
 	],
 	link: {
@@ -90,7 +83,7 @@ userSchema.methods.findAndAddBook = function (bookID, collection) {
 	for (let i = 0; i < collection.length; i++) {
 		if (collection[i]._id === bookID) {
 			var newBook = new Book();
-			newBook.update(collection[i]);
+			newBook.update(collection[i], this);
 			newBook.save();
 
 			var obj = {

@@ -45,13 +45,74 @@
 					<% } %>
 				<% } %>
 			</div>
-			<div class="ui segment">
-				<% if(profile.books.length > 0) { %>
-					<p><%= profile.books %></p>
-				<% } else { %>
-					<p>User has no books associated with account.</p>
-				<% } %>
-			</div>
+		</div>
+		<div class="ui container">
+			<% if(profile.books.length > 0) { %>
+				<div class="ui centered raised doubling cards">
+					<% var alreadyUsedIndex = [] %>
+					<% for (var i = 0; i < profile.books.length && i < 9; i++) { %>
+
+						<%
+							function getRandomInt(min, max) {
+							  return Math.floor(Math.random() * (max - min)) + min;
+							}
+
+							var j = 0; var indexFound = false;
+						%>
+
+						<% do { var j = getRandomInt(0, profile.books.length);
+							 if(alreadyUsedIndex.indexOf(j) === -1) {alreadyUsedIndex.push(j); indexFound = true;
+							 }
+						 } while(!indexFound); %>
+
+						<% book = profile.books[j].book %>
+						<div class="card" style=" text-align: left;">
+							<div class="content" style="padding-bottom: 0;">
+								<div class="header">
+									<a href="/book/<%= book.link %>" target="_blank"><%= book.title %></a>
+								</div>
+
+								<% if(book.thumbnail) { %>
+									<a href="/book/<%= book.link %>">
+										<div class="ui left floated image">
+											<img src="<%= book.thumbnail %>">
+										</div>
+									</a>
+								<% } %>
+
+								<% if(book.pageCount) { %>
+									<div class="meta">
+										<span>P.
+											<%= book.pageCount %></span>
+									</div>
+								<% } %>
+
+								<% if(book.authors) { %>
+									<% book.authors.forEach(author => { %>
+										<div class="meta">
+											<a><%= author %></a>
+										</div>
+									<% }); %>
+								<% } %>
+
+								<div class="meta">
+									<span><%= book.publishedDate %></span>
+								</div>
+
+								<% if(book.categories) { %>
+									<% book.categories.forEach(category => { %>
+										<div class="extra content">
+											<a><%= category %></a>
+										</div>
+									<% }); %>
+								<% } %>
+							</div>
+						</div>
+					<% } %>
+				</div>
+			<% } else { %>
+				<p>User has no books associated with account.</p>
+			<% } %>
 		</div>
 
 		<% include ../snippets/footer %>

@@ -10,23 +10,73 @@
 
 		<div class="ui container" id="top">
 			<img src="/favicon.ico" /class="ui centered small image">
-		</div>
 
-		<div class="ui container">
 			<div class="ui raised segments">
 				<div class="ui center aligned segment">
-					You are logged in!
+					<h2>Welcome to Troca de Livros!</h2>
 				</div>
 				<div class="ui segment">
-					<p>Here you will see all the books in the system</p>
-				</div>
-				<div class="ui segment">
-					<p>You will be able to search and filter these results.</p>
+					<div class="ui container">
+						<% if(books.length > 0) { %>
+							<h3>Some books that are available</h3>
+							<div class="ui centered raised doubling cards">
+								<% for (var i = 0; i < books.length; i++) { %>
+									<% book = books[i] %>
+									<div class="ui card" style=" text-align: left;">
+										<div class="content" style="padding-bottom: 0;">
+											<div class="header">
+												<a href="/book/<%= book.link %>" target="_blank"><%= book.title %></a>
+											</div>
+
+											<% if(book.thumbnail) { %>
+												<a href="/book/<%= book.link %>">
+													<div class="ui left floated image">
+														<img src="<%= book.thumbnail %>">
+													</div>
+												</a>
+											<% } %>
+
+											<% if(book.pageCount) { %>
+												<div class="meta">
+													<span>P.
+														<%= book.pageCount %></span>
+												</div>
+											<% } %>
+
+											<% if(book.authors) { %>
+												<% book.authors.forEach(author => { %>
+													<div class="meta">
+														<a><%= author %></a>
+													</div>
+												<% }); %>
+											<% } %>
+
+											<div class="meta">
+												<span><%= book.publishedDate %></span>
+											</div>
+
+											<% if(book.categories) { %>
+												<% book.categories.forEach(category => { %>
+													<div class="extra content">
+														<a><%= category %></a>
+													</div>
+												<% }); %>
+											<% } %>
+										</div>
+									</div>
+								<% } %>
+							</div>
+						<% } else { %>
+							<p>No books found, try again later.</p>
+						<% } %>
+					</div>
+					<div class="ui segment">
+						<p>You will be able to search and filter these results.</p>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<% include ../snippets/footer %>
-		<% include ../snippets/JS %>
-	</body>
-</html>
+			<% include ../snippets/footer %>
+			<% include ../snippets/JS %>
+		</body>
+	</html>

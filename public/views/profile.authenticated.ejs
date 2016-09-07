@@ -104,36 +104,101 @@
 					<% } else { %>
 						<!-- Show all books -->
 						<!-- Only show 6 books, rest go to user library -->
-						<div class="ui centered doubling cards">
+						<div class="ui centered raised doubling cards">
+							<% var alreadyUsedIndex = [] %>
 							<% for (var i = 0; i < user.books.length && i < 6; i++) { %>
+
+								<%
+									function getRandomInt(min, max) {
+									  return Math.floor(Math.random() * (max - min)) + min;
+									}
+
+									var j = 0; var indexFound = false;
+								%>
+
+								<% do { var j = getRandomInt(0, user.books.length);
+									 if(alreadyUsedIndex.indexOf(j) === -1) {alreadyUsedIndex.push(j); indexFound = true;
+									 }
+								 } while(!indexFound); %>
+
+								<% book = user.books[j].book %>
+
 								<div class="card">
-									<div class="content">
-										<i class="right floated delete icon"></i>
+									<div class="content" style="padding-bottom: 0;">
 										<div class="header">
-											<a href="/book/<%= user.books[i].link %>"><%= user.books[i].title %></a>
+											<a href="/book/<%= book.link %>" target="_blank"><%= book.title %></a>
 										</div>
 
-										<div class="meta"><%= user.books[i].book %></div>
+										<% if(book.thumbnail) { %>
+											<a href="/book/<%= book.link %>">
+												<div class="ui left floated image">
+													<img src="<%= book.thumbnail %>">
+												</div>
+											</a>
+										<% } %>
+
+										<% if(book.pageCount) { %>
+											<div class="meta">
+												<span>P.
+													<%= book.pageCount %></span>
+											</div>
+										<% } %>
+
+										<% if(book.authors) { %>
+											<% book.authors.forEach(author => { %>
+												<div class="meta">
+													<a><%= author %></a>
+												</div>
+											<% }); %>
+										<% } %>
+
+										<div class="meta">
+											<span><%= book.publishedDate %></span>
+										</div>
+
+										<% if(book.categories) { %>
+											<% book.categories.forEach(category => { %>
+												<div class="extra content">
+													<a><%= category %></a>
+												</div>
+											<% }); %>
+										<% } %>
 									</div>
 									<div class="extra content">
 										<div class="description">
-											<% if(user.books[i].description) { %>
-												<% if(user.books[i].description.length > 150) { %>
+											<% if(book.description) { %>
+												<% if(book.description.length > 250) { %>
 													<p>
-														<%= user.books[i].description.substring(0,150) %>&hellip;
+														<%= book.description.substring(0,250) %>&hellip;
 													</p>
 												<% } else { %>
 													<p>
-														<%= user.books[i].description %>
+														<%= book.description %>
 													</p>
 												<% } %>
 											<% } %>
+										</div>
+									</div>
+									<div class="ui bottom attached buttons">
+										<div class="ui secondary button">
+											<i class="edit icon"></i>
+											Edit Book
+										</div>
+										<div class="ui red button">
+											<i class="delete icon"></i>
+											Delete
 										</div>
 									</div>
 								</div>
 							<% } %>
 						</div>
 					<% } %>
+					<br>
+					<div class="ui grid">
+						<div class="sixteen wide column" style="text-align: center">
+							<a href="/profile/library" class="ui primary disabled button">Go to user library</a>
+						</div>
+					</div>
 				</div>
 
 				<div class="active title">

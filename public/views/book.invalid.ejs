@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Troca de Livros</title>
+
+		<% include ../snippets/head %>
+	</head>
+	<body>
+		<% include ../snippets/navbar %>
+
+		<div class="ui raised segments text container" id="top">
+			<div class="ui segment">
+				<div class="ui big error message">
+					<div class="header">
+						404!
+					</div>
+					<div class="content">
+						Invalid book url "<%= link %>".
+						<br>
+						Maybe it was moved or never existed at all? Spooky.
+					</div>
+				</div>
+			</div>
+			<div class="ui centered image">
+				<div class="ui dimmer">
+					<div class="content">
+						<div class="center">
+							<a href="/" class="ui primary huge button">Home</a>
+						</div>
+					</div>
+				</div>
+				<img src="<%= background %>"/>
+			</div>
+		</div>
+
+		<% include ../snippets/footer %>
+		<% include ../snippets/JS %>
+		<script>
+			$('.image').dimmer({on: 'hover'});
+		</script>
+	</body>
+</html>

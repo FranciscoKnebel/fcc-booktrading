@@ -14,7 +14,7 @@ module.exports = function (app, dirname) {
 			var book = new Book();
 			var books = [];
 
-			req.session.temp.push(book.createCustom(req.body));
+			req.session.temp.push(book.createCustom(req.body, req.user));
 			books.push(book);
 			res.render('profile.addbook.result.ejs', {
 				user: req.user,
@@ -34,7 +34,7 @@ module.exports = function (app, dirname) {
 					var books = [];
 					response.items.forEach(elem => {
 						let book = new Book();
-						books.push(book.create(elem));
+						books.push(book.create(elem, req.user));
 					});
 
 					req.session.temp = books;

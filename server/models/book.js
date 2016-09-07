@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var sha1 = require('sha1');
 var shortid = require('shortid');
+var random = require('mongoose-random');
 
 // define the schema for our user model
 var bookSchema = mongoose.Schema({
@@ -28,6 +29,12 @@ var bookSchema = mongoose.Schema({
 	link: {
 		type: String,
 		'default': shortid.generate
+	},
+	pictures: [String],
+	isFree: Boolean,
+	owner: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
 	}
 }, {
 	timestamps: {
@@ -48,7 +55,7 @@ bookSchema.methods.changeInformation = function (property, value) {
 	return this;
 }
 
-bookSchema.methods.create = function (volume) {
+bookSchema.methods.create = function (volume, creator) {
 	this.bookID = volume.id;
 	this.etag = volume.etag;
 	this.title = volume.volumeInfo.title;
@@ -76,11 +83,13 @@ bookSchema.methods.create = function (volume) {
 	this.bookURL = volume.volumeInfo.infoLink;
 	this.custom = false;
 	this.hash = sha1(this.title);
+	this.isFree = true;
+	this.owner = creator;
 
 	return this;
 }
 
-bookSchema.methods.createCustom = function (volume) {
+bookSchema.methods.createCustom = function (volume, creator) {
 	this.title = volume.title;
 	this.authors.push(volume.author);
 	this.description = volume.description;
@@ -88,13 +97,14 @@ bookSchema.methods.createCustom = function (volume) {
 	this.thumbnail = volume.thumbnail;
 	this.custom = true;
 	this.hash = sha1(this.title);
-
 	this.bookURL = '/book/' + this.id;
+	this.isFree = true;
+	this.owner = creator;
 
 	return this;
 }
 
-bookSchema.methods.update = function (book) {
+bookSchema.methods.update = function (book, creator) {
 	this.bookID = book.bookID;
 	this.etag = book.etag;
 	this.title = book.title;
@@ -102,12 +112,8 @@ bookSchema.methods.update = function (book) {
 	this.publisher = book.publisher;
 	this.publishedDate = book.publishedDate;
 	this.description = book.description;
-	if (book.searchInfo) {
-		this.snippet = book.snippet;
-	}
-	if (book.imageLinks) {
-		this.thumbnail = book.thumbnail;
-	}
+	this.snippet = book.snippet;
+	this.thumbnail = book.thumbnail;
 	this.pageCount = book.pageCount;
 	this.categories = book.categories;
 	if (book.industryIdentifiers) {
@@ -118,7 +124,10 @@ bookSchema.methods.update = function (book) {
 	this.bookURL = book.bookURL;
 	this.custom = book.custom;
 	this.hash = book.hash;
+	this.isFree = book.isFree;
+	this.owner = creator;
 }
 
+bookSchema.plugin(random, {path: 'r'});
 // create the model for users and expose it to our app
 module.exports = mongoose.model('Book', bookSchema);

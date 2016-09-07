@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Troca de Livros</title>
+
+		<% include ../snippets/head %>
+		<link rel="stylesheet" href="/css/slider-pro.min.css">
+		<style media="screen">
+			.meta {
+				text-align: left;
+			}
+
+			.swiper-container {
+				width: 100%;
+				height: 300px;
+			}
+
+		</style>
+	</head>
+	<body>
+		<% include ../snippets/navbar %>
+
+		<div class="ui grid text container" id="top">
+			<div class="sixteen wide column">
+				<div class="ui fluid centered card">
+					<div class="content" style="padding-bottom: 0;">
+						<a class="ui right corner disabled red label">
+							<i class="heart icon"></i>
+						</a>
+						<div class="header">
+							<a href="/book/<%= book.link %>" target="_blank"><%= book.title %></a>
+							<% if(book.isFree) { %>
+								<a class="ui green tag label">Free</a>
+							<% } else { %>
+								<a class="ui red tag label">Not free</a>
+							<% } %>
+						</div>
+
+						<% if(book.thumbnail) { %>
+							<a href="/book/<%= book.link %>">
+								<div class="ui right floated image">
+									<img src="<%= book.thumbnail %>">
+								</div>
+							</a>
+						<% } %>
+
+						<% if(book.pageCount) { %>
+							<div class="meta">
+								<span>P.
+									<%= book.pageCount %></span>
+							</div>
+						<% } %>
+
+						<% if(book.authors) { %>
+							<% book.authors.forEach(author => { %>
+								<div class="meta">
+									<a><%= author %></a>
+								</div>
+							<% }); %>
+						<% } %>
+
+						<% if(book.publisher) { %>
+							<div class="meta">
+								<a><%= book.publisher %></a>
+							</div>
+						<% } %>
+
+						<div class="meta">
+							<span><%= book.publishedDate %></span>
+						</div>
+
+						<% if(book.categories) { %>
+							<% book.categories.forEach(category => { %>
+								<div class="meta">
+									<div class="extra content">
+										<a><%= category %></a>
+									</div>
+								</div>
+							<% }); %>
+						<% } %>
+
+						<% if(book.description) { %>
+							<p>
+								<%= book.description %>
+							</p>
+						<% } %>
+					</div>
+					<div class="extra content">
+						<% if(book.pictures.length > 0) { %>
+							<div class="slider-pro" id="my-slider">
+								<div class="sp-slides">
+									<% book.pictures.forEach(elem => { %>
+										<div class="sp-slide">
+											<img class="sp-image" src="<%= elem %>"/>
+										</div>
+									<% }); %>
+								</div>
+							</div>
+						<% } else { %>
+							<p>
+								No pictures added for this book.
+							</p>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<% include ../snippets/footer %>
+		<% include ../snippets/JS %>
+		<script src="/js/jquery.sliderPro.min.js" charset="utf-8"></script>
+		<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$('#my-slider').sliderPro({arrows: true});
+			});
+		</script>
+	</body>
+</html>

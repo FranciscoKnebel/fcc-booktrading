@@ -2,11 +2,11 @@ body {
   background-color: #111111;
 }
 
-h1, h3, h4, h5 {
+h1, h2, h3, h4, h5 {
     color: white;
 }
 
-.ui.segment h4 {
+.ui.segment h1, h2, h3, h4, h5 {
   color: black;
 }
 
@@ -23,7 +23,7 @@ i.black.icon {
 }
 
 #top {
-  margin-top: 100px;
+  margin-top: 60px;
 }
 
 footer {
