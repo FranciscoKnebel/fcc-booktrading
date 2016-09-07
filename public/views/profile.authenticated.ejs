@@ -71,7 +71,7 @@
 					User owned books
 
 					<% if(hasOwnedBooks) { %>
-						<div class="horizontal ui teal label">
+						<div class="horizontal ui teal label" id="bookslength">
 							<%= user.books.length %>
 						</div>
 					<% } %>
@@ -123,7 +123,7 @@
 
 								<% book = user.books[j].book %>
 
-								<div class="card">
+								<div class="card" id="<%= book._id%>">
 									<div class="content" style="padding-bottom: 0;">
 										<div class="header">
 											<a href="/book/<%= book.link %>" target="_blank"><%= book.title %></a>
@@ -180,11 +180,11 @@
 										</div>
 									</div>
 									<div class="ui bottom attached buttons">
-										<div class="ui secondary button">
+										<div class="ui disabled secondary button">
 											<i class="edit icon"></i>
 											Edit Book
 										</div>
-										<div class="ui red button">
+										<div class="ui red button" onclick="deleteBook('<%= book._id %>')">
 											<i class="delete icon"></i>
 											Delete
 										</div>
@@ -315,8 +315,7 @@
 
 		<% include ../snippets/footer %>
 		<% include ../snippets/JS %>
-		<script src="/js/profile.authenticated.js"></script>
-		<script type="text/javascript">
+		<script src="/js/profile.authenticated.js">
 			$('.selection.dropdown').dropdown('set selected', <%= user.configs.theme %>);
 		</script>
 	</body>

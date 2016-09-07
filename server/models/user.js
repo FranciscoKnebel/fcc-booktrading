@@ -101,8 +101,8 @@ userSchema.methods.findAndAddBook = function (bookID, collection) {
 	return false;
 }
 
-/*userSchema.methods.removeBook = function (book) {
-	var index = findOptionIndex(this.books, 'id', book.id);
+userSchema.methods.removeBook = function (bookID) {
+	var index = findOptionIndex(this.books, 'book', '_id', bookID);
 
 	if (index === notFound) {
 		return false;
@@ -110,7 +110,7 @@ userSchema.methods.findAndAddBook = function (bookID, collection) {
 		this.books.splice(index, 1);
 		return this.books;
 	}
-}*/
+}
 
 userSchema.methods.changeInformation = function (property, value) {
 	if (this[property] !== value) {
@@ -195,6 +195,15 @@ module.exports = mongoose.model('User', userSchema);
 function findOptionIndex(array, key, value) {
 	for (var i = 0; i < array.length; i++) {
 		if (array[i][key] == value) {
+			return i;
+		}
+	}
+	return notFound;
+}
+
+function findOptionIndex(array, key, key2, value) {
+	for (var i = 0; i < array.length; i++) {
+		if (array[i][key][key2] == value) {
 			return i;
 		}
 	}

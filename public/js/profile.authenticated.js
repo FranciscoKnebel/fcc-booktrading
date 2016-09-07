@@ -17,6 +17,33 @@ function checkWidth(init) {
 	}
 }
 
+function deleteBook(bookID) {
+	if (confirm("Are you sure you want to delete this?")) {
+		console.log(bookID);
+		$.ajax({
+			type: "DELETE",
+			url: "/profile/delete/book/" + bookID
+		}).done(function (res) {
+			if (res === true) {
+				var card = $('#' + bookID);
+				card.transition({
+					animation: 'fade out',
+					onComplete: function () {
+						var bookslabel = parseInt($('#bookslength').text().replace(/[^0-9\.]/g, ''), 10);
+
+						$('#bookslength').empty();
+						$('#bookslength').append(--bookslabel);
+
+						card.remove();
+					}
+				});
+			} else {
+				alert(res);
+			}
+		});
+	}
+}
+
 $(document).ready(function () {
 	checkWidth(true);
 

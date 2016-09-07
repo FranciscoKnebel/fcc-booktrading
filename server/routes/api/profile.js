@@ -97,6 +97,28 @@ module.exports = function (app, dirname) {
 		res.send(true);
 	});
 
+	app.delete('/profile/delete/book/:bookID', isLoggedIn, function (req, res) {
+
+		//delete book from user
+		var user = req.user;
+		if (user.removeBook(req.params.bookID)) {
+			user.save();
+
+			//delete book from books collection
+			Book.remove({
+				_id: req.params.bookID
+			}, function (err) {
+				if (err) {
+					res.send(err.message);
+				}
+
+				res.send(true);
+			})
+		} else {
+			res.status(404).send("Book not found on user account.");
+		}
+	});
+
 	//update
 	app.post('/profile/update/', isLoggedIn, function (req, res) {
 		var user = req.user;
