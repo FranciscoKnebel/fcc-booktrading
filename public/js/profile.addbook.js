@@ -20,6 +20,8 @@ function formtype() {
 $(document).ready(function () {
 	$('.ui.checkbox').checkbox();
 	$('#customBook').hide();
+	$('#customBook').removeClass('nojs');
+
 	$('#notcustomCheckbox').hide();
 
 	$('#custom').click(function () {

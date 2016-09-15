@@ -20,8 +20,22 @@
 	<body>
 		<% include ../snippets/navbar %>
 
+		<% if(!user) { %>
+			<% var userOwnsThisBook = false; %>
+		<% } else { %>
+			<% var userOwnsThisBook = book.owner.equals(user._id); %>
+		<% } %>
+
 		<div class="ui grid text container" id="top">
 			<div class="sixteen wide column">
+				<% if(userOwnsThisBook) { %>
+					<h3>
+						<a href="/profile/<%= user.link %>" target="_blank">
+							<img class="ui avatar image" src="<%= user.picture %>"/>
+						</a>
+						User owned book
+					</h3>
+				<% } %>
 				<div class="ui fluid centered card">
 					<div class="content" style="padding-bottom: 0;">
 						<a class="ui right corner disabled red label">
@@ -102,17 +116,28 @@
 							</p>
 						<% } %>
 					</div>
+					<% if(!userOwnsThisBook) { %>
+						<form action="/book/request/<%= book._id %>" method="POST">
+							<div class="ui bottom attached primary button" id="submitrequestBook" onclick="this.parentNode.submit()">
+								<i class="add icon"></i>
+								Request this book
+							</div>
+						</form>
+					<% } %>
 				</div>
 			</div>
 		</div>
 
 		<% include ../snippets/footer %>
 		<% include ../snippets/JS %>
-		<script src="/js/jquery.sliderPro.min.js" charset="utf-8"></script>
-		<script type="text/javascript">
-			jQuery(document).ready(function($) {
-				$('#my-slider').sliderPro({arrows: true});
-			});
-		</script>
+		<% if(book.pictures.length > 0) { %>
+			<script src="/js/jquery.sliderPro.min.js" charset="utf-8"></script>
+			<script type="text/javascript">
+				jQuery(document).ready(function($) {
+					$('#my-slider').sliderPro({arrows: true});
+				});
+			</script>
+		<% } %>
+		<% if(!userOwnsThisBook) { %><% } %>
 	</body>
 </html>

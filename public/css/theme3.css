@@ -6,7 +6,11 @@ h1, h2, h3, h4, h5 {
     color: white;
 }
 
-.ui.segment h1, h2, h3, h4, h5 {
+.ui.segment h1, .ui.segment h2, .ui.segment h3, .ui.segment h4, .ui.segment h5 {
+  color: black;
+}
+
+.ui.message h2{
   color: black;
 }
 

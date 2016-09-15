@@ -68,17 +68,6 @@ userSchema.methods.validPassword = function (password) {
 	return bcrypt.compareSync(password, this.password);
 };
 
-userSchema.methods.addBook = function (book) {
-	var obj = {
-		title: book.title || undefined,
-		description: book.description || undefined,
-		book: book
-	}
-
-	this.books.push(obj);
-	return this.books;
-}
-
 userSchema.methods.findAndAddBook = function (bookID, collection) {
 	for (let i = 0; i < collection.length; i++) {
 		if (collection[i]._id === bookID) {
@@ -154,7 +143,7 @@ userSchema.methods.getRequestedBooks = function () {
 	var requested = [];
 
 	for (var i = 0; i < this.books.length; i++) {
-		if (this.books[i].requested > 0) { //book is requested by at least one person
+		if (this.books[i].requested.length > 0) { //book is requested by at least one person
 			requested.push(this.books[i]);
 		}
 	}
@@ -164,7 +153,7 @@ userSchema.methods.getRequestedBooks = function () {
 
 userSchema.methods.addRequestToBook = function (book, user) {
 	for (var i = 0; i < this.books.length; i++) {
-		if (this.books[i].id === book.id) {
+		if (this.books[i].book.id === book.id) {
 			this.books[i].requested.push({by: user, when: new Date()});
 			this.markModified('books');
 			return this.books[i];
@@ -175,7 +164,7 @@ userSchema.methods.addRequestToBook = function (book, user) {
 
 userSchema.methods.removeRequestToBook = function (book, user) {
 	for (var i = 0; i < this.books.length; i++) {
-		if (this.books[i].id === book.id) {
+		if (this.books[i].book.id === book.id) {
 			for (var j = 0; j < array.length; j++) {
 				if (this.books[i].requested[j].by.id === user.id) {
 					this.books[i].requested.splice(j, 1);

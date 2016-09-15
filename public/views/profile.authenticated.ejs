@@ -315,7 +315,8 @@
 
 		<% include ../snippets/footer %>
 		<% include ../snippets/JS %>
-		<script src="/js/profile.authenticated.js">
+		<script src="/js/profile.authenticated.js"></script>
+		<script type="text/javascript">
 			$('.selection.dropdown').dropdown('set selected', <%= user.configs.theme %>);
 		</script>
 	</body>

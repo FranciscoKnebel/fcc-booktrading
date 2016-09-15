@@ -19,7 +19,6 @@ function checkWidth(init) {
 
 function deleteBook(bookID) {
 	if (confirm("Are you sure you want to delete this?")) {
-		console.log(bookID);
 		$.ajax({
 			type: "DELETE",
 			url: "/profile/delete/book/" + bookID
