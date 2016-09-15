@@ -28,7 +28,11 @@
 					Pending requests
 					<% if(hasPendingRequests) { %>
 						<div class="horizontal ui red label">
-							<%= requested.length %>
+							<% var pending = 0; %>
+							<% for (var i = 0; i < requested.length; i++) { %>
+								<% pending += requested[i].requested.length %>
+							<% } %>
+							<%= pending %>
 						</div>
 					<% } %>
 				</div>
@@ -58,13 +62,106 @@
 							</div>
 						<% } else { %>
 							<!--Show all requests -->
-							<div class="item">
-								<p><%= requested %></p>
+							<div>
+								<% for (var i = 0; i < requested.length; i++) { %>
+									<% requestedbook = requested[i].book %>
+									<div class="ui fluid card" id="<%= requestedbook._id%>">
+										<div class="content" style="padding-bottom: 0;">
+											<div class="header">
+												<a href="/book/<%= requestedbook.link %>" target="_blank"><%= requestedbook.title %></a>
+											</div>
+
+											<% if(requestedbook.thumbnail) { %>
+												<a href="/book/<%= requestedbook.link %>">
+													<div class="ui left floated image">
+														<img src="<%= requestedbook.thumbnail %>">
+													</div>
+												</a>
+											<% } %>
+
+											<% if(requestedbook.pageCount) { %>
+												<div class="meta">
+													<span>P.
+														<%= requestedbook.pageCount %></span>
+												</div>
+											<% } %>
+
+											<% if(requestedbook.authors) { %>
+												<% requestedbook.authors.forEach(author => { %>
+													<div class="meta">
+														<a><%= author %></a>
+													</div>
+												<% }); %>
+											<% } %>
+
+											<div class="meta">
+												<span><%= requestedbook.publishedDate %></span>
+											</div>
+
+											<% if(requestedbook.categories) { %>
+												<% requestedbook.categories.forEach(category => { %>
+													<div class="extra content">
+														<a><%= category %></a>
+													</div>
+												<% }); %>
+											<% } %>
+										</div>
+										<div class="extra content">
+											<div class="description">
+												<% if(requestedbook.description) { %>
+													<% if(requestedbook.description.length > 500) { %>
+														<p>
+															<%= requestedbook.description.substring(0,500) %>&hellip;
+														</p>
+													<% } else { %>
+														<p>
+															<%= requestedbook.description %>
+														</p>
+													<% } %>
+												<% } %>
+											</div>
+										</div>
+
+										<div class="extra content">
+											<div class="ui center aligned four column doubling stackable grid">
+												<% for(var j = 0; j < requested[i].requested.length; j++) { %>
+													<% var by = requested[i].requested[j].by %>
+													<% var when = requested[i].requested[j].when %>
+
+													<form action="/profile/delete/request/" method="POST" class="column item" id="<%= requested[i].requested[j]._id %>">
+														<div class="content">
+															<p>
+																<a href="/profile/<%= by.link %>" target="_blank">
+																	<img class="ui bordered avatar image" src="<%= by.picture %>"/>
+																</a>
+
+																<a href="mailto:<%= by.email %>" target="_top">
+																	<%= by.email %></a>
+															</p>
+															<p><%= by.city %></p>
+															<p><%= by.phone %></p>
+															<p>
+																<span><%= when.toLocaleDateString() %></span>
+																<span>-</span>
+																<span><%= when.toLocaleTimeString() %></span>
+															</p>
+
+															<input style="display: none;" value="<%= requested[i].requested[j]._id %>" name="requestedID">
+															<input style="display: none;" value="<%= requested[i]._id %>" name="bookID">
+															<button class="ui button" type="button" onclick="deleteRequest('<%= requested[i].requested[j]._id %>')">
+																Delete Request
+															</button>
+														</div>
+													</form>
+												<% } %>
+											</div>
+										</div>
+									</div>
+								<% } %>
 							</div>
 						<% } %>
 					</div>
 				</div>
-
 				<% var hasOwnedBooks = !(!user.books || 0 === user.books.length || user.books === "") %>
 				<div class="title">
 					<i class="dropdown icon"></i>

@@ -43,6 +43,12 @@ function deleteBook(bookID) {
 	}
 }
 
+function deleteRequest(requestID) {
+	if (confirm("Are you sure you want to delete this request?")) {
+		$("#" + requestID).submit();
+	}
+}
+
 $(document).ready(function () {
 	checkWidth(true);
 

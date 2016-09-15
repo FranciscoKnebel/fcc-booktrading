@@ -164,9 +164,25 @@ userSchema.methods.addRequestToBook = function (book, user) {
 
 userSchema.methods.removeRequestToBook = function (book, user) {
 	for (var i = 0; i < this.books.length; i++) {
-		if (this.books[i].book.id === book.id) {
-			for (var j = 0; j < array.length; j++) {
+		if (this.books[i].book._id === book._id) {
+			for (var j = 0; j < this.books[i].requested.length; j++) {
 				if (this.books[i].requested[j].by.id === user.id) {
+					this.books[i].requested.splice(j, 1);
+					this.markModified('books');
+					return this.books[i];
+				}
+			}
+			return false;
+		}
+	}
+	return false;
+}
+
+userSchema.methods.removeRequestWithID = function (bookID, requestID) {
+	for (let i = 0; i < this.books.length; i++) {
+		if (this.books[i]._id == bookID) {
+			for (let j = 0; j < this.books[i].requested.length; j++) {
+				if (this.books[i].requested[j].id == requestID) {
 					this.books[i].requested.splice(j, 1);
 					this.markModified('books');
 					return this.books[i];

@@ -4,6 +4,7 @@ const isLoggedIn = require('../../modules/isLoggedIn');
 var google = require('googleapis');
 var bookAPI = google.books('v1');
 var Book = require('../../models/book');
+var mongoose = require('mongoose');
 
 module.exports = function (app, dirname) {
 	//add
@@ -119,6 +120,19 @@ module.exports = function (app, dirname) {
 		}
 	});
 
+	app.post('/profile/delete/request/', isLoggedIn, function (req, res) {
+		var user = req.user;
+
+		if (mongoose.Types.ObjectId.isValid(req.body.requestedID) && mongoose.Types.ObjectId.isValid(req.body.bookID)) {
+			user.removeRequestWithID(req.body.bookID, req.body.requestedID);
+			user.save();
+			res.redirect('/profile');
+		} else {
+			res.status(400).send("Bad request, parameters do not have the correct format.");
+		}
+
+	});
+
 	//update
 	app.post('/profile/update/', isLoggedIn, function (req, res) {
 		var user = req.user;
@@ -170,5 +184,3 @@ module.exports = function (app, dirname) {
 		}
 	});
 }
-
-//<% if(! (book.hash == 'null')) { %> < svg width = "80" height = "80" data - jdenticon - hash = "<%= book.hash %>" > </svg><% } %> < script src = "/js/jdenticon.js" > </script>
