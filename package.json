@@ -1,7 +1,7 @@
 {
   "name": "trocadelivros",
   "version": "1.0.0",
-  "description": "\"Troca de Livros\" is an online book trading platform. You can register your books, search for books available in your area, contact the book owner and set up a meeting to trade!",
+  "description": "\"fcc-booktrading\" is an online book trading platform. You can register your books, search for books available in your area, contact the book owner and set up a meeting to trade!",
   "main": "main.js",
   "scripts": {
     "start": "node main.js",

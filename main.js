@@ -35,7 +35,7 @@ if (app.get('env') === 'production') {
 const connection = mongoose.createConnection(process.env.MONGODB_URI);
 app.use(session({
 	secret: process.env.SESSION_SECRET,
-	name: "TrocaDeLivros",
+	name: "fcc-booktrading",
 	resave: false,
 	saveUninitialized: false,
 	store: new MongoStore({mongooseConnection: connection})
